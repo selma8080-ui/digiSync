@@ -12,40 +12,126 @@ procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu----
 
 $cpuLine = preg_split('/\s+/', trim($output[3]));
 
-$disponible = $cpuLine[14]; 
-$total = 100;
+$available = $cpuLine[14];
+$used = 100 - $available;
 
-echo "Processeur Disponible: " . $disponible . "%\n";
-echo "Processeur Total: 100%\n";
+header('Content-Type: application/json');
 
-/*
-<?php
-function getCPUStats() {
-    $data = file_get_contents('/proc/stat');
-    $lines = explode("\n", $data);
-    $cpu = preg_split('/\s+/', trim($lines[0]));
-
-    // /proc/stat columns: user, nice, system, idle, iowait, irq, etc.
-    $idle = $cpu[4];
-    $total = array_sum(array_slice($cpu, 1));
-
-    // Calculate percentage
-    $percentDisponible = ($idle / $total) * 100;
-
-    return [
-        'disponible' => round($percentDisponible, 2),
-        'total' => 100
-    ];
-}
-
-$cpu = getCPUStats();
-echo "CPU Disponible: " . $cpu['disponible'] . "%\n";
-?>
-*/
-
-
+echo json_encode([
+  "total" => 100,
+  "used" => $used,
+  "available" => $available
+]);
 
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts"></script>
+</head>
 
+<body>
+
+<div id="app">
+    <div id="chart" style="width: 250px;height: 250px;"></div>
+</div>
+
+<script>
+const app = Vue.createApp({
+    data() {
+        return {
+            cpuUsed: <?= $used ?>,
+            times: [],
+            values: [],
+            chart: null
+        }
+    },
+
+    methods: {
+        initChart() {
+            this.chart = echarts.init(document.getElementById('chart'));
+
+            this.chart.setOption({
+                title: {
+                    text: 'CPU Usage'
+                },
+
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: (params) => {
+                        return `CPU: ${params[0].value}%`;
+                    }
+                },
+
+                xAxis: {
+                    type: 'category',
+                    data: []
+                },
+
+                yAxis: {
+                    type: 'value',
+                    min: 0,
+                    max: 100,
+                    axisLabel: {
+                        formatter: '{value}%'
+                    }
+                },
+
+                series: [{
+                    type: 'line',
+                    areaStyle: {},
+                    data: []
+                }]
+            });
+        },
+
+        updateChart() {
+            let now = new Date().toLocaleTimeString();
+
+            this.times.push(now);
+            this.values.push(this.cpuUsed);
+
+            if (this.times.length > 10) {
+                this.times.shift();
+                this.values.shift();
+            }
+
+            this.chart.setOption({
+                xAxis: {
+                    data: this.times
+                },
+                series: [{
+                    data: this.values
+                }]
+            });
+        },
+
+        loadData() {
+            axios.get('processeur.php').then(res => {
+                this.cpuUsed = res.data.used;
+                this.updateChart();
+            });
+        }
+    },
+
+    mounted() {
+        this.initChart();
+        this.updateChart();
+
+        setInterval(() => {
+            this.loadData();
+        }, 2000);
+    }
+});
+
+app.mount('#app');
+</script>
+
+</body>
+</html>
 
