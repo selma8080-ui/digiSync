@@ -44,6 +44,8 @@ echo json_encode([
     <div id="app">
         <div id="chart" style="width: 250px;height: 250px;"></div>
     </div>
+
+    
     <script>
         const app = Vue.createApp({
             data() {
@@ -77,7 +79,7 @@ echo json_encode([
                             radius: '50%',
                             data: [
                                 { value: 0, name: 'Used' },
-                                { value: 100, name: 'Free' }
+                                { value: 100, name: 'Available' }
                             ],
                             emphasis: {
                                 itemStyle: {
@@ -89,6 +91,7 @@ echo json_encode([
                         }]
                     });
                 },
+
                 updateChart() {
                     this.chart.setOption({
                         series: [{
@@ -99,6 +102,7 @@ echo json_encode([
                         }]
                     });
                 },
+                
                 loadData() {
                     axios.get('disque.php').then(res => {
                         this.disqueUsed = res.data.used;
