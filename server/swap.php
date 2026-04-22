@@ -1,27 +1,3 @@
-<?php
-/*
-               total        used        free      shared  buff/cache   available
-Mem:            3619         372        3140           5         185        3246
-Swap:           1024           0        1024
-*/
-
-
-
-$free_output = shell_exec('free -m');
-
-preg_match('/Swap:\s+(\d+)\s+(\d+)\s+(\d+)/', $free_output, $matches);
-
-$totalSwap = $matches[1];
-$usedSwap  = $matches[2];
-
-echo json_encode([
-  "used" => (int)$usedSwap,
-  "time" => time()
-]);
-?>
-
-
-
 <!DOCTYPE html>
  <html lang="en">
  <head>
@@ -40,9 +16,52 @@ echo json_encode([
     </div>
 
  <script>
-let myChart = echarts.init(document.getElementById('chart'));
+const app = Vue.createApp({
+    data(){
+        return{
+            swapPercent: <?= round($percent,2) ?>,
+            chart: null
+        }
+    },
 
-let data = [];
+    methods:{
+        initChart() {
+            this.chart = echarts.init(document.getElementById('chart'));
+
+            let option = {
+               tooltip: {
+                    formatter: '{a} <br/>{b} : {c}%'
+                    },
+                series: [
+                    {
+                        name: 'Pressure',
+                        type: 'gauge',
+                        progress: {
+                        show: true
+                    },
+                        detail: {
+                            formatter: '{value} %'
+                        },
+                        data: [
+                            {
+                                value: this.swapPercent
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            this.chart.setOption(option);
+        }
+    },
+
+    mounted(){
+        this.initChart();
+    }
+});
+
+app.mount('#app');
+</script>
 
 
 

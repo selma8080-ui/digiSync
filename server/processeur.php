@@ -1,27 +1,4 @@
-<?php 
 
-exec('vmstat 1 2', $output);
-
-/*
-procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
- r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
- 0  0      0 3410420   3488 153972    0    0    62   919   53    0  0  0 100  0  0  0
- 0  0      0 3410420   3488 153972    0    0     0     0   41   48  0  0 100  0  0  0
-*/
-
-
-$cpuLine = preg_split('/\s+/', trim($output[3]));
-
-$available = $cpuLine[14];
-$used = 100 - $available;
-
-echo json_encode([
-  "total" => 100,
-  "used" => $used,
-  "available" => $available
-]);
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
