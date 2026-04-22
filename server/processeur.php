@@ -15,8 +15,6 @@ $cpuLine = preg_split('/\s+/', trim($output[3]));
 $available = $cpuLine[14];
 $used = 100 - $available;
 
-header('Content-Type: application/json');
-
 echo json_encode([
   "total" => 100,
   "used" => $used,
