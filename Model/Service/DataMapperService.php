@@ -1,5 +1,7 @@
 <?php
 
+// Linux
+
 function getRam() {
    /*
                 total        used        free      shared  buff/cache   available
@@ -127,31 +129,6 @@ echo "Lecture (bi) : " . $lecture . " blocks/s\n";
 echo "Ecriture (bo) : " . $ecriture . " blocks/s\n";
 
 
-/*
-<?php
-function getDiskStats($device = 'sda') {
-    $stats = file_get_contents('/proc/diskstats');
-    $lines = explode("\n", $stats);
-    
-    foreach ($lines as $line) {
-        if (strpos($line, $device) !== false) {
-            $fields = preg_split('/\s+/', trim($line));
-            // Index 3 = sectors read, Index 7 = sectors written
-            // Usually 1 sector = 512 bytes
-            return [
-                'read_sectors' => $fields[3],
-                'write_sectors' => $fields[7]
-            ];
-        }
-    }
-    return null;
-}
-
-$disk = getDiskStats('sda'); // Change 'sda' to your disk name (lsblk to check)
-echo "Secteurs lus: " . $disk['read_sectors'] . "\n";
-echo "Secteurs ecrits: " . $disk['write_sectors'] . "\n";
-?>
-*/
 }
 
 function getTrafficReseau() {
@@ -194,6 +171,24 @@ echo json_encode([
     "traffReseau" => getTrafficReseau()
     
 ]);
+
+
+
+// MongoDB
+
+require 'vendor/autoload.php';
+
+$client = new MongoDB\Client("mongodb://localhost:27017");
+$db = $client -> DigiS;
+$etablissment = $db->etablissment;
+
+$docs = $etablissment -> find();
+
+$totalSyncIn = 0;
+$totalSyncOut = 0;
+$totalCmdError = 0;
+$nbrEtablissement = 0;
+
 
 
 ?>
