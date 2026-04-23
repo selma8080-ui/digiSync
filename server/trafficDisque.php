@@ -111,12 +111,17 @@
             return timeStr + '<br/>Trafic : ' + params[0].value[1].toLocaleString() + ' Octets';
           }
         },
-        xAxis: {
-          type: 'time',
-          boundaryGap: false,
-          axisLabel: { formatter: '{HH}:{mm}', hideOverlap: true }
-        },
-        yAxis: {
+       xAxis: {
+  type: 'time',
+  boundaryGap: false,
+  axisLabel: {
+    formatter: function (value) {
+      let date = new Date(value);
+      return date.getHours() + ':' + String(date.getMinutes()).padStart(2, '0');
+    }
+  }
+},
+yAxis: {
           type: 'value',
           name: 'Débit',
           axisLabel: {
