@@ -98,7 +98,68 @@
           }, 2000); 
         }
       }
+<<<<<<< HEAD
     }).mount('#app');
+=======
+
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          formatter: (params) => {
+            let date = new Date(params[0].value[0]);
+            let timeStr = date.getHours() + ':' + date.getMinutes().toString().padStart(2, '0');
+            return timeStr + '<br/>Trafic : ' + params[0].value[1].toLocaleString() + ' Octets';
+          }
+        },
+        xAxis: {
+          type: 'time',
+          boundaryGap: false,
+          axisLabel: { formatter: '{HH}:{mm}', hideOverlap: true }
+        },
+        yAxis: {
+          type: 'value',
+          name: 'Débit',
+          axisLabel: {
+            formatter: function (value) {
+              if (value >= 1024 * 1024) return (value / (1024 * 1024)).toFixed(1) + ' Mo';
+              if (value >= 1024) return (value / 1024).toFixed(1) + ' Ko';
+              return value + ' B';
+            }
+          }
+        },
+        series: [{
+          name: 'Trafic Octets',
+          type: 'line',
+          smooth: true,
+          symbol: 'none',
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgb(58, 77, 233)' },
+              { offset: 1, color: 'rgb(15, 20, 50)' }
+            ])
+          },
+          data: data
+        }]
+      };
+
+      this.chart.setOption(option);
+
+      setInterval(() => {
+        let lastTime = data[data.length - 1][0];
+        let nextTime = lastTime + INTERVAL;
+        let nextValue = <?= $traffic ?>;
+
+        data.shift(); 
+        data.push([nextTime, nextValue]);
+
+        this.chart.setOption({
+          series: [{ data: data }]
+        });
+      }, 2000); 
+    }
+  }
+}).mount('#app');
+>>>>>>> bb30613c2444bcc8804b85574c6f689cece5de08
 </script>
 </body>
 </html>
