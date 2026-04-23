@@ -121,13 +121,13 @@ procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu----
 
 $line = preg_split('/\s+/', trim($output[3]));
 
-$lecture = $line[8];
-$ecriture = $line[9];
+$lecture = (int)$line[8];
+$ecriture = (int)$line[9];
 
-echo "Traffic Disque :\n";
-echo "Lecture (bi) : " . $lecture . " blocks/s\n";
-echo "Ecriture (bo) : " . $ecriture . " blocks/s\n";
-
+return [
+    "read" => $lecture,
+    "write" => $ecriture
+];
 
 }
 
