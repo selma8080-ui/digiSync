@@ -1,3 +1,8 @@
+<?php 
+    $percent = 50;
+?>
+
+
 <!DOCTYPE html>
  <html lang="en">
  <head>
@@ -19,7 +24,7 @@
 const app = Vue.createApp({
     data(){
         return{
-            ramPercent: <?= round($Spercent,2) ?>,
+            ramPercent: <?= json_encode(round($percent,2)) ?>,
             chart: null
         }
     },

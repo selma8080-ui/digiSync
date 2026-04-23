@@ -1,4 +1,6 @@
-
+<?php 
+    $used = [20, 34,34 ,43,43];
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +22,7 @@
 const app = Vue.createApp({
     data() {
         return {
-            cpuUsed: <?= $used ?>,
+            cpuUsed: <?= json_encode($used) ?>,
             times: [],
             values: [],
             chart: null
