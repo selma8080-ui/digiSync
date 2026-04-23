@@ -31,6 +31,20 @@
         },
 
         methods: {
+            formatTime5Min() {
+                const now = new Date();
+
+                let minutes = now.getMinutes();
+                let rounded = Math.floor(minutes / 5) * 5;
+
+                now.setMinutes(rounded);
+                now.setSeconds(0);
+
+                return now.getHours().toString().padStart(2, '0')
+                    + ":" +
+                    rounded.toString().padStart(2, '0');
+            },
+
             initChart() {
                 this.chart = echarts.init(document.getElementById('chart'));
 
@@ -68,13 +82,33 @@
                     }]
                 });
             },
+
+            updateChart() {
+                this.times.push(this.formatTime5Min());
+                this.values.push(this.cpuUsed);
+
+                if (this.times.length > 10) {
+                    this.times.shift();
+                    this.values.shift();
+                }
+
+                this.chart.setOption({
+                    xAxis: {
+                        data: this.times
+                    },
+                    series: [{
+                        data: this.values
+                    }]
+                });
+            }
         },
 
         mounted() {
             this.values = <?= json_encode($used) ?>;
-            this.times = this.values.map((_, i) => `t${i}`);
+            this.times = this.values.map(() => this.formatTime5Min());
 
             this.initChart();
+            this.updateChart();
         }
     });
 
