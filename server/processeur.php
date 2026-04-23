@@ -19,94 +19,65 @@
 </div>
 
 <script>
-const app = Vue.createApp({
-    data() {
-        return {
-            cpuUsed: <?= json_encode($used) ?>,
-            times: [],
-            values: [],
-            chart: null
-        }
-    },
-
-    methods: {
-        initChart() {
-            this.chart = echarts.init(document.getElementById('chart'));
-
-            this.chart.setOption({
-                title: {
-                    text: 'CPU Usage'
-                },
-
-                tooltip: {
-                    trigger: 'axis',
-                    formatter: (params) => {
-                        return `CPU: ${params[0].value}%`;
-                    }
-                },
-
-                xAxis: {
-                    type: 'category',
-                    data: []
-                },
-
-                yAxis: {
-                    type: 'value',
-                    min: 0,
-                    max: 100,
-                    axisLabel: {
-                        formatter: '{value}%'
-                    }
-                },
-
-                series: [{
-                    type: 'line',
-                    areaStyle: {},
-                    data: []
-                }]
-            });
-        },
-
-        updateChart() {
-            let now = new Date().toLocaleTimeString();
-
-            this.times.push(now);
-            this.values.push(this.cpuUsed);
-
-            if (this.times.length > 10) {
-                this.times.shift();
-                this.values.shift();
+    const app = Vue.createApp({
+        data() {
+            return {
+                cpuUsed: 0,
+                times: [],
+                values: [],
+                chart: null
             }
-
-            this.chart.setOption({
-                xAxis: {
-                    data: this.times
-                },
-                series: [{
-                    data: this.values
-                }]
-            });
         },
 
-        loadData() {
-            axios.get('processeur.php').then(res => {
-                this.cpuUsed = res.data.used;
-                this.updateChart();
-            });
+        methods: {
+            initChart() {
+                this.chart = echarts.init(document.getElementById('chart'));
+
+                this.chart.setOption({
+                    title: {
+                        text: 'CPU Usage'
+                    },
+
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: (params) => {
+                            return `CPU: ${params[0].value}%`;
+                        }
+                    },
+
+                    xAxis: {
+                        type: 'category',
+                        data: this.times
+                    },
+
+                    yAxis: {
+                        type: 'value',
+                        min: 0,
+                        max: 100,
+                        axisLabel: {
+                            formatter: '{value}%'
+                        }
+                    },
+
+                    series: [{
+                        type: 'line',
+                        smooth: true,
+                        areaStyle: {},
+                        data: this.values
+                    }]
+                });
+            },
+        },
+
+        mounted() {
+            this.values = <?= json_encode($used) ?>;
+            this.times = this.values.map((_, i) => `t${i}`);
+
+            this.initChart();
         }
-    },
+    });
 
-    mounted() {
-        this.initChart();
-        this.updateChart();
-
-        setInterval(() => {
-            this.loadData();
-        }, 2000);
-    }
-});
-
-app.mount('#app');
+    app.mount('#app');
 </script>
 
 </body>
