@@ -85,7 +85,7 @@ const app = Vue.createApp({
       setInterval(() => {
         let lastTime = data[data.length - 1][0];
         let nextTime = lastTime + INTERVAL;
-        let nextValue = Math.round(Math.random() * 5000);
+        let nextValue = <?= $traffic ?>;
 
         data.shift(); 
         data.push([nextTime, nextValue]);
