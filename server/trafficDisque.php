@@ -8,11 +8,11 @@
 
 </head>
 <body>
-    <div id="chart" style="width:600px;height:400px;"></div>
+    <div id="trafficDisqueChart" style="width:100%; height:300px;"></div>
 
     <script>
-        var chartDom = document.getElementById('chart');
-        var myChart = echarts.init(chartDom);
+        var trafficDisqueChart = document.getElementById('trafficDisqueChart');
+        var myChart = echarts.init(trafficDisqueChart);
         var option;
 
         let base = +new Date(1988, 9, 3);

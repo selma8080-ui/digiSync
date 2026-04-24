@@ -7,11 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="chart" style="width:600px;height:400px;"></div>
+    <div id="swapChart" style="width:100%; height:300px;"></div>
 
     <script>
-        var chartDom = document.getElementById('chart');
-        var myChart = echarts.init(chartDom);
+        var swapChart = document.getElementById('swapChart');
+        var myChart = echarts.init(swapChart);
         var option;
 
         option = {

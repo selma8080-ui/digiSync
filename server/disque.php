@@ -7,12 +7,11 @@
 </head>
 <body>
     
-    <div id="chart" style="width: 400px;height: 400px;"></div>
+    <div id="disqueChart" style="width:100%; height:300px;""></div>
 
     <script>
-
-        var chartDom = document.getElementById('chart');
-        var myChart = echarts.init(chartDom);
+        var disqueChart = document.getElementById('disqueChart');
+        var myChart = echarts.init(disqueChart);
         var option;
 
         option = {

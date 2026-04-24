@@ -8,11 +8,11 @@
 </head>
 <body>
 
-    <div id="chart" style="width:600px;height:400px;"></div>
+    <div id="ramChart" style="width:100%; height:300px;"></div>
 
     <script>
-        var chartDom = document.getElementById('chart');
-        var myChart = echarts.init(chartDom);
+        var ramChart = document.getElementById('ramChart');
+        var myChart = echarts.init(ramChart);
         var option;
 
         option = {

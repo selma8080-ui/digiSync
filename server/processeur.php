@@ -8,12 +8,11 @@
 
 <body>
 
-    <div id="chart" style="width: 250px;height: 250px;"></div>
+    <div id="cpuChart" style="width:100%; height:300px;"></div>
 
     <script>
-        
-        var chartDom = document.getElementById('chart');
-        var myChart = echarts.init(chartDom);
+        var cpuChart = document.getElementById('cpuChart');
+        var myChart = echarts.init(cpuChart);
         var option;
 
         option = {
