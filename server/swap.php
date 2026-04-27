@@ -1,3 +1,7 @@
+<?php 
+    $percent = 55;
+?>
+
 <!DOCTYPE html>
  <html lang="en">
  <head>
@@ -19,7 +23,7 @@
 const app = Vue.createApp({
     data(){
         return{
-            swapPercent: <?= round($percent,2) ?>,
+            swapPercent: <?= json_encode(round($percent,2)) ?>,
             chart: null
         }
     },

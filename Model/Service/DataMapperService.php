@@ -61,12 +61,8 @@ class DataMapperService {
 
         $Spercent = ($usedSwap / $totalSwap) * 100;
 
-        return [
-                "total" => (int)$totalSwap,
-                "used" => (int)$usedSwap,
-                "free" => (int)$freeSwap,
-                "percent" => round($Spercent, 2)
-            ];
+        $dataInfo->swapTotal($total);
+        $dataInfo->swapUsed($used);
     }
 
 
@@ -96,12 +92,9 @@ class DataMapperService {
 
     $line = preg_split('/\s+/', trim($output[1]));
 
-
-    echo json_encode([
-    "total" => $line[1],
-    "used" => $line[2],
-    "available" => $line[3],
-    ]);
+        $dataInfo->hddTotal($line[1]);
+        $dataInfo->hddUsed($line[2]);
+        $dataInfo->hddAvailable($line[3]);
     }
 
 
@@ -127,6 +120,9 @@ class DataMapperService {
     "available" => $available
     ]);
 
+        $dataInfo->cpuUsed($used);
+        $dataInfo->cpuAvailable($available);
+
     }
 
 
@@ -150,11 +146,11 @@ class DataMapperService {
     echo "Lecture (bi) : " . $lecture . " blocks/s\n";
     echo "Ecriture (bo) : " . $ecriture . " blocks/s\n";
 
-
+        $dataInfo->trafficDisqueLecture($lecture);
+        $dataInfo->trafficDisqueEcriture($ecriture);
     }
 
-    private function getTrafficReseau() {
-
+     private function getTrafficReseau() {
     /*
     Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
 
@@ -162,7 +158,7 @@ class DataMapperService {
         0
     */
 
-    private function get_incoming_traffic($interface = 'eth0') {
+    function get_incoming_traffic($interface = 'eth0') {
         $stats = file_get_contents('/proc/net/dev');
         $lines = explode("\n", $stats);
         foreach ($lines as $line) {
