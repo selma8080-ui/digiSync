@@ -17,61 +17,81 @@
 
         let baseR = +new Date(1988, 9, 3);
         let oneDayR = 24 * 3600 * 1000;
-        let dataR = [[baseR, Math.random() * 300]];
-        for (let i = 1; i < 20000; i++) {
-        let now = new Date((baseR += oneDayR));
-        dataR.push([+now, Math.round((Math.random() - 0.5) * 20 + dataR[i - 1][1])]);
-        }
+        let dataR = [];
+        let maxDurationR = 6 * 3600 * 1000; 
+
+        function addDataPoint(value) {
+            let now = new Date().getTime();
+
+            dataR.push([now, value]);
+
+
+            dataR = dataR.filter(point => now - point[0] <= maxDurationR);
+
+            myChart.setOption({
+                series: [{
+                    data: dataR
+                }]
+            });
+        };
         option = {
-        tooltip: {
-            trigger: 'axis',
-            position: function (pt) {
+    tooltip: {
+        trigger: 'axis',
+        position: function (pt) {
             return [pt[0], '10%'];
+        }
+    },
+    title: {
+        left: 'center',
+        text: 'Traffic Reseau '
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {} 
+        }
+    },
+    xAxis: {
+        type: 'time',
+        min: function (value) {
+            return value.max - (6 * 3600 * 1000);
+        },
+        max: function (value) {
+            return value.max;
+        },
+        axisLabel: {
+            formatter: function (value) {
+                let d = new Date(value);
+                return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
             }
-        },
-        title: {
-            left: 'center',
-            text: 'Large Ara Chart'
-        },
-        toolbox: {
-            feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
-            },
-            restore: {},
-            saveAsImage: {}
+        }
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            formatter: function (value) {
+                return (value / (1024 * 1024)).toFixed(2) + ' MB';
             }
-        },
-        xAxis: {
-            type: 'time',
-            boundaryGap: false
-        },
-        yAxis: {
-            type: 'value',
-            boundaryGap: [0, '100%']
-        },
-        dataZoom: [
-            {
-            type: 'inside',
-            start: 0,
-            end: 20
-            },
-            {
-            start: 0,
-            end: 20
-            }
-        ],
-        series: [
-            {
-            name: 'Fake Data',
+        }
+    },
+    series: [
+        {
+            name: 'Utilisation Disque',
             type: 'line',
             smooth: true,
             symbol: 'none',
             areaStyle: {},
             data: dataR
-            }
-        ]
-        };
+        }
+    ]
+};
+
+        let now = new Date().getTime();
+
+for (let i = 0; i < 100; i++) {
+    let time = now - (100 - i) * (6 * 3600 * 1000 / 100); 
+    let value = Math.random() * 50 * 1024 * 1024; 
+    dataR.push([time, value]);
+}
 
         option && myChart.setOption(option);
 

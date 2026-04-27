@@ -33,66 +33,65 @@
                     data: data
                 }]
             });
-        },
+        };
         option = {
-        tooltip: {
-            trigger: 'axis',
-            position: function (pt) {
+    tooltip: {
+        trigger: 'axis',
+        position: function (pt) {
             return [pt[0], '10%'];
-            }
+        }
+    },
+    title: {
+        left: 'center',
+        text: 'Traffic Disque'
+    },
+    toolbox: {
+        feature: {
+            saveAsImage: {} 
+        }
+    },
+    xAxis: {
+        type: 'time',
+        min: function (value) {
+            return value.max - (6 * 3600 * 1000);
         },
-        title: {
-            left: 'center',
-            text: 'Large Ara Chart'
+        max: function (value) {
+            return value.max;
         },
-        toolbox: {
-            feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
-            },
-            restore: {},
-            saveAsImage: {}
+        axisLabel: {
+            formatter: function (value) {
+                let d = new Date(value);
+                return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
             }
-        },
-        xAxis: {
-            type: 'time',
-            axisLabel: {
-                formatter: function (value) {
-                    let d = new Date(value);
-                    return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
-                }
+        }
+    },
+    yAxis: {
+        type: 'value',
+        axisLabel: {
+            formatter: function (value) {
+                return (value / (1024 * 1024)).toFixed(2) + ' MB';
             }
-        },
-        yAxis: {
-            type: 'value',
-            axisLabel: {
-                formatter: function (value) {
-                    return (value / (1024 * 1024)).toFixed(2) + ' MB';
-                }
-            }
-        },
-        dataZoom: [
-            {
-            type: 'inside',
-            start: 0,
-            end: 20
-            },
-            {
-            start: 0,
-            end: 20
-            }
-        ],
-        series: [
-            {
-            name: 'Fake Data',
+        }
+    },
+    series: [
+        {
+            name: 'Utilisation Disque',
             type: 'line',
             smooth: true,
             symbol: 'none',
             areaStyle: {},
             data: data
-            }
-        ]
-        };
+        }
+    ]
+};
+
+        let now = new Date().getTime();
+
+for (let i = 0; i < 100; i++) {
+    let time = now - (100 - i) * (6 * 3600 * 1000 / 100); 
+    let value = Math.random() * 50 * 1024 * 1024; 
+    data.push([time, value]);
+}
 
         option && myChart.setOption(option);
 
