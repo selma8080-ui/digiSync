@@ -17,11 +17,23 @@
 
         let base = +new Date(1988, 9, 3);
         let oneDay = 24 * 3600 * 1000;
-        let data = [[base, Math.random() * 300]];
-        for (let i = 1; i < 20000; i++) {
-        let now = new Date((base += oneDay));
-        data.push([+now, Math.round((Math.random() - 0.5) * 20 + data[i - 1][1])]);
-        }
+        let data = [];
+        let maxDuration = 6 * 3600 * 1000; 
+
+        function addDataPoint(value) {
+            let now = new Date().getTime();
+
+            data.push([now, value]);
+
+
+            data = data.filter(point => now - point[0] <= maxDuration);
+
+            myChart.setOption({
+                series: [{
+                    data: data
+                }]
+            });
+        },
         option = {
         tooltip: {
             trigger: 'axis',
@@ -44,11 +56,20 @@
         },
         xAxis: {
             type: 'time',
-            boundaryGap: false
+            axisLabel: {
+                formatter: function (value) {
+                    let d = new Date(value);
+                    return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+                }
+            }
         },
         yAxis: {
             type: 'value',
-            boundaryGap: [0, '100%']
+            axisLabel: {
+                formatter: function (value) {
+                    return (value / (1024 * 1024)).toFixed(2) + ' MB';
+                }
+            }
         },
         dataZoom: [
             {
