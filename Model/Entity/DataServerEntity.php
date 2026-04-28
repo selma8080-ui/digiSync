@@ -1,6 +1,6 @@
 
 <?php
-    class Data {
+    class DataServerEntity {
         //RAM
         public $ramTotal;
         public $ramUsed;

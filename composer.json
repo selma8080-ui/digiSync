@@ -1,0 +1,12 @@
+{
+    "name": "hp250g8/digi-sync",
+    "authors": [
+        {
+            "name": "HibaAd",
+            "email": "hiba159hiba@gmail.com"
+        }
+    ],
+    "require": {
+        "mongodb/mongodb": "^2.2"
+    }
+}

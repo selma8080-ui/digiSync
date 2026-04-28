@@ -38,7 +38,7 @@
                 this.fetchData();
 
                 this.intervalId = setInterval(() => {
-                this.fetchData();
+                    this.fetchData();
                 }, 1000);
             },
             beforeUnmount() {
