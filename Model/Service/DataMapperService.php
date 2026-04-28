@@ -189,7 +189,7 @@
         }
 
 
-            // MongoDB
+
 
         public function getTotals() {
             $client = new MongoDB\Client("mongodb://localhost:27017");
