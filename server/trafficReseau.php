@@ -12,8 +12,8 @@
 
     <script>
         var trafficReseauChart = document.getElementById('trafficReseauChart');
-        var myChart = echarts.init(trafficReseauChart);
-        var option;
+        var myChartR = echarts.init(trafficReseauChart);
+        var optionR;
 
         let baseR = +new Date(1988, 9, 3);
         let oneDayR = 24 * 3600 * 1000;
@@ -21,79 +21,79 @@
         let maxDurationR = 6 * 3600 * 1000; 
 
         function addDataPoint(value) {
-            let now = new Date().getTime();
+            let nowR = new Date().getTime();
 
-            dataR.push([now, value]);
+            dataR.push([nowR, value]);
 
 
-            dataR = dataR.filter(point => now - point[0] <= maxDurationR);
+            dataR = dataR.filter(point => nowR - point[0] <= maxDurationR);
 
-            myChart.setOption({
+            myChartR.setOption({
                 series: [{
                     data: dataR
                 }]
             });
         };
-        option = {
-    tooltip: {
-        trigger: 'axis',
-        position: function (pt) {
-            return [pt[0], '10%'];
-        }
-    },
-    title: {
-        left: 'center',
-        text: 'Traffic Reseau '
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {} 
-        }
-    },
-    xAxis: {
-        type: 'time',
-        min: function (value) {
-            return value.max - (6 * 3600 * 1000);
-        },
-        max: function (value) {
-            return value.max;
-        },
-        axisLabel: {
-            formatter: function (value) {
-                let d = new Date(value);
-                return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
-            }
-        }
-    },
-    yAxis: {
-        type: 'value',
-        axisLabel: {
-            formatter: function (value) {
-                return (value / (1024 * 1024)).toFixed(2) + ' MB';
-            }
-        }
-    },
-    series: [
-        {
-            name: 'Utilisation Disque',
-            type: 'line',
-            smooth: true,
-            symbol: 'none',
-            areaStyle: {},
-            data: dataR
-        }
-    ]
-};
+        optionR = {
+            tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                    return [pt[0], '10%'];
+                }
+            },
+            title: {
+                left: 'center',
+                text: 'Traffic Reseau '
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {} 
+                }
+            },
+            xAxis: {
+                type: 'time',
+                min: function (value) {
+                    return value.max - (6 * 3600 * 1000);
+                },
+                max: function (value) {
+                    return value.max;
+                },
+                axisLabel: {
+                    formatter: function (value) {
+                        let d = new Date(value);
+                        return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    formatter: function (value) {
+                        return (value / (1024 * 1024)).toFixed(2) + ' MB';
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Utilisation Disque',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'none',
+                    areaStyle: {},
+                    data: dataR
+                }
+            ]
+        };
 
-        let now = new Date().getTime();
+        let nowR = new Date().getTime();
 
-for (let i = 0; i < 100; i++) {
-    let time = now - (100 - i) * (6 * 3600 * 1000 / 100); 
-    let value = Math.random() * 50 * 1024 * 1024; 
-    dataR.push([time, value]);
-}
+        for (let i = 0; i < 100; i++) {
+            let time = nowR - (100 - i) * (6 * 3600 * 1000 / 100); 
+            let value = Math.random() * 50 * 1024 * 1024; 
+            dataR.push([time, value]);
+        }
 
-        option && myChart.setOption(option);
+        optionR && myChartR.setOption(option);
 
     </script>
 
