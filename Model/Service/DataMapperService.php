@@ -4,10 +4,6 @@
     use MongoDB\Client;
 
 
-class DataMapperService {
-    private $dataInfo = null;
-
-
     class DataMapperService {
         private $dataInfo = null;
 
@@ -50,6 +46,7 @@ class DataMapperService {
             $this->dataInfo->ramAvailable = $available;
         }
 
+
         private function getSwap() {
             /*
                         total        used        free      shared  buff/cache   available
@@ -81,7 +78,7 @@ class DataMapperService {
         drivers         238G  161G   78G  68% /usr/lib/wsl/drivers
         /dev/sdd       1007G  1.8G  954G   1% /
         none            1.8G   80K  1.8G   1% /mnt/wslg
-        none            1.8G     0  1.8G   0% /usr/lib/wsl/lib
+        none
         rootfs          1.8G  2.7M  1.8G   1% /init
         none            1.8G  492K  1.8G   1% /run
         none            1.8G     0  1.8G   0% /run/lock
@@ -128,8 +125,7 @@ class DataMapperService {
 
         private function getTrafficDisque() {
             exec('vmstat 1 2', $output);
- private function getTrafficDisque() {
-    exec('vmstat 1 2', $output);
+
 
             /*
             procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
@@ -147,78 +143,53 @@ class DataMapperService {
             $this->dataInfo->trafficDisqueEcriture = $ecriture;
         }
 
-
+            
         private function getTrafficReseau() {
-        /*
-        Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
 
-        eth0: 133626359   59812    0    0    0     0          0        89  2088055   31173    0    0    0     0       0
-            0
-        */
+            /*
+            Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
+
+            eth0: 133626359   59812    0    0    0     0          0        89  2088055   31173    0    0    0     0       0
+                0
+            */
+
 
             function get_incoming_traffic($interface = 'eth0') {
                 $stats = file_get_contents('/proc/net/dev');
                 $lines = explode("\n", $stats);
+
                 foreach ($lines as $line) {
                     if (strpos($line, $interface) !== false) {
                         $parts = preg_split('/\s+/', trim($line));
-                        return $parts[1]; 
+                        return (int)$parts[1];
                     }
+
+
+                    $start = get_incoming_traffic('eth0');
+                    sleep(1);
+                    $end = get_incoming_traffic('eth0');
+
+                    $this->dataInfo->trafficReseau($end - $start);
+
                 }
-                return 0;
-
-        $dataInfo = new DataInfo();
-        $dataInfo->trafficDisqueLecture($lecture);
-        $dataInfo->trafficDisqueEcriture($ecriture);
-    }
 
 
+                $start = get_incoming_traffic('eth0');
+                usleep(500000); 
+                $end = get_incoming_traffic('eth0');
 
-	
-private function getTrafficReseau() {
+                $speed = $end - $start;
 
-    /*
-    Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
+                header('Content-Type: application/json');
 
-    eth0: 133626359   59812    0    0    0     0          0        89  2088055   31173    0    0    0     0       0
-        0
-    */
-
-
-    function get_incoming_traffic($interface = 'eth0') {
-        $stats = file_get_contents('/proc/net/dev');
-        $lines = explode("\n", $stats);
-
-        foreach ($lines as $line) {
-            if (strpos($line, $interface) !== false) {
-                $parts = preg_split('/\s+/', trim($line));
-                return (int)$parts[1];
+                echo json_encode([
+                    "value" => $speed
+                ]);
             }
-
-
-            $start = get_incoming_traffic('eth0');
-            sleep(1);
-            $end = get_incoming_traffic('eth0');
-
-            $this->dataInfo->trafficReseau($end - $start);
-
         }
 
 
-    $start = get_incoming_traffic('eth0');
-    usleep(500000); 
-    $end = get_incoming_traffic('eth0');
 
-    $speed = $end - $start;
-
-    header('Content-Type: application/json');
-
-    echo json_encode([
-        "value" => $speed
-    ]);
-}
-
-        // MongoDB
 
         public function getTotals() {
             $client = new MongoDB\Client("mongodb://localhost:27017");
@@ -267,7 +238,7 @@ private function getTrafficReseau() {
             return $etablissement->find();
         }
 
-        
+
     }
 
 
