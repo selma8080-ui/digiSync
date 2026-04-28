@@ -205,8 +205,6 @@ private function getTrafficReseau() {
         }
 
 
-
- 
     $start = get_incoming_traffic('eth0');
     usleep(500000); 
     $end = get_incoming_traffic('eth0');
