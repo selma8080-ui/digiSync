@@ -2,6 +2,7 @@
 require 'Entity/DataServerEntity.php';
 require 'vendor/autoload.php';
 
+
 class DataMapperService {
     private $dataInfo = null;
 
@@ -127,7 +128,7 @@ class DataMapperService {
 
 
 
-    private function getTrafficDisque() {
+ private function getTrafficDisque() {
     exec('vmstat 1 2', $output);
 
     /*
@@ -146,11 +147,17 @@ class DataMapperService {
     echo "Lecture (bi) : " . $lecture . " blocks/s\n";
     echo "Ecriture (bo) : " . $ecriture . " blocks/s\n";
 
+
+        $dataInfo = new DataInfo();
         $dataInfo->trafficDisqueLecture($lecture);
         $dataInfo->trafficDisqueEcriture($ecriture);
     }
 
-     private function getTrafficReseau() {
+
+
+	
+private function getTrafficReseau() {
+
     /*
     Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
 
@@ -158,26 +165,33 @@ class DataMapperService {
         0
     */
 
+
     function get_incoming_traffic($interface = 'eth0') {
         $stats = file_get_contents('/proc/net/dev');
         $lines = explode("\n", $stats);
+
         foreach ($lines as $line) {
             if (strpos($line, $interface) !== false) {
                 $parts = preg_split('/\s+/', trim($line));
-                return $parts[1]; 
+                return (int)$parts[1];
             }
         }
         return 0;
     }
 
-
+ 
     $start = get_incoming_traffic('eth0');
-    sleep(1);
+    usleep(500000); 
     $end = get_incoming_traffic('eth0');
-    echo "Trafic entrant (1s) : " . ($end - $start) . " octets\n";
 
-    }
+    $speed = $end - $start;
 
+    header('Content-Type: application/json');
+
+    echo json_encode([
+        "value" => $speed
+    ]);
+}
 
 
     echo json_encode([
