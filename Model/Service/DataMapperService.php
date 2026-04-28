@@ -4,6 +4,9 @@
     use MongoDB\Client;
 
 
+class DataMapperService {
+    private $dataInfo = null;
+
 
     class DataMapperService {
         private $dataInfo = null;
@@ -125,6 +128,8 @@
 
         private function getTrafficDisque() {
             exec('vmstat 1 2', $output);
+ private function getTrafficDisque() {
+    exec('vmstat 1 2', $output);
 
             /*
             procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
@@ -161,6 +166,33 @@
                     }
                 }
                 return 0;
+
+        $dataInfo = new DataInfo();
+        $dataInfo->trafficDisqueLecture($lecture);
+        $dataInfo->trafficDisqueEcriture($ecriture);
+    }
+
+
+
+	
+private function getTrafficReseau() {
+
+    /*
+    Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
+
+    eth0: 133626359   59812    0    0    0     0          0        89  2088055   31173    0    0    0     0       0
+        0
+    */
+
+
+    function get_incoming_traffic($interface = 'eth0') {
+        $stats = file_get_contents('/proc/net/dev');
+        $lines = explode("\n", $stats);
+
+        foreach ($lines as $line) {
+            if (strpos($line, $interface) !== false) {
+                $parts = preg_split('/\s+/', trim($line));
+                return (int)$parts[1];
             }
 
 
@@ -174,7 +206,19 @@
 
 
 
+ 
+    $start = get_incoming_traffic('eth0');
+    usleep(500000); 
+    $end = get_incoming_traffic('eth0');
 
+    $speed = $end - $start;
+
+    header('Content-Type: application/json');
+
+    echo json_encode([
+        "value" => $speed
+    ]);
+}
 
         // MongoDB
 

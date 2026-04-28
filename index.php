@@ -12,7 +12,7 @@
 
             <!-- Left side (log) -->
             <div class="col-12 col-md-6">
-
+                   <?php include 'monitoring.php'; ?>
             </div>
 
             <!-- right side (server) -->
@@ -53,8 +53,7 @@
                         <div class="card">
                             <?php include 'server/trafficReseau.php'; ?>  
                         </div>
-                    </div>
-
+                    </div>       
                 </div>
             </div>
 

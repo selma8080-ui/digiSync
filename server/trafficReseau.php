@@ -10,92 +10,52 @@
 <body>
     <div id="trafficReseauChart" style="width:100%; height:300px;"></div>
 
-    <script>
-        var trafficReseauChart = document.getElementById('trafficReseauChart');
-        var myChartR = echarts.init(trafficReseauChart);
-        var optionR;
+<script>
+    var trafficReseauChart = document.getElementById('trafficReseauChart');
+    var myChart = echarts.init(trafficReseauChart);
+    
+    let data = [];
+    let maxDuration = 6 * 3600 * 1000; 
 
-        let baseR = +new Date(1988, 9, 3);
-        let oneDayR = 24 * 3600 * 1000;
-        let dataR = [];
-        let maxDurationR = 6 * 3600 * 1000; 
+    var option = {
+        tooltip: { trigger: 'axis', position: function (pt) { return [pt[0], '10%']; } },
+        title: { left: 'center', text: 'Traffic Reseau' },
+        toolbox: { feature: { saveAsImage: {} } },
+        xAxis: {
+            type: 'time',
+            min: function (value) { return value.max - (6 * 3600 * 1000); },
+            max: function (value) { return value.max; },
+            axisLabel: { formatter: function (value) {
+                let d = new Date(value);
+                return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
+            } }
+        },
+        yAxis: { type: 'value', axisLabel: { formatter: function (value) {
+            return (value / (1024 * 1024)).toFixed(2) + ' MB';
+        } } },
+        series: [{ name: 'Utilisation Reseau', type: 'line', smooth: true, symbol: 'none', areaStyle: {}, data: data }]
+    };
 
-        function addDataPoint(value) {
-            let nowR = new Date().getTime();
-
-            dataR.push([nowR, value]);
+    myChart.setOption(option);
 
 
-            dataR = dataR.filter(point => nowR - point[0] <= maxDurationR);
+    function addDataPoint(value) {
+        let now = new Date().getTime();
+        data.push([now, value]);
+        data = data.filter(point => now - point[0] <= maxDuration);
+        myChart.setOption({ series: [{ data: data }] });
+    }
 
-            myChartR.setOption({
-                series: [{
-                    data: dataR
-                }]
-            });
-        };
-        optionR = {
-            tooltip: {
-                trigger: 'axis',
-                position: function (pt) {
-                    return [pt[0], '10%'];
-                }
-            },
-            title: {
-                left: 'center',
-                text: 'Traffic Reseau '
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {} 
-                }
-            },
-            xAxis: {
-                type: 'time',
-                min: function (value) {
-                    return value.max - (6 * 3600 * 1000);
-                },
-                max: function (value) {
-                    return value.max;
-                },
-                axisLabel: {
-                    formatter: function (value) {
-                        let d = new Date(value);
-                        return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
-                    }
-                }
-            },
-            yAxis: {
-                type: 'value',
-                axisLabel: {
-                    formatter: function (value) {
-                        return (value / (1024 * 1024)).toFixed(2) + ' MB';
-                    }
-                }
-            },
-            series: [
-                {
-                    name: 'Utilisation Disque',
-                    type: 'line',
-                    smooth: true,
-                    symbol: 'none',
-                    areaStyle: {},
-                    data: dataR
-                }
-            ]
-        };
 
-        let nowR = new Date().getTime();
+    let now = new Date().getTime();
+    for (let i = 0; i < 100; i++) {
+        let time = now - (100 - i) * (6 * 3600 * 1000 / 100);
+        let value = Math.random() * 50 * 1024 * 1024;
+        data.push([time, value]);
+    }
+    myChart.setOption({ series: [{ data: data }] });
 
-        for (let i = 0; i < 100; i++) {
-            let time = nowR - (100 - i) * (6 * 3600 * 1000 / 100); 
-            let value = Math.random() * 50 * 1024 * 1024; 
-            dataR.push([time, value]);
-        }
-
-        optionR && myChartR.setOption(option);
-
-    </script>
+</script>
 
 </body>
 </html>
