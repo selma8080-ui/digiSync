@@ -1,5 +1,6 @@
 <?php
-    require '../Model/Service/DataMapperService.php';
+    require __DIR__ . '/../vendor/autoload.php';
+    require __DIR__ . '/../Model/Service/DataMapperService.php';
 
     $dm = new DataMapperService();
     $totals = $dm->getTotals();

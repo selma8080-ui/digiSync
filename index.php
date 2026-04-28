@@ -13,6 +13,7 @@
             <!-- Left side (log) -->
             <div class="col-12 col-md-6">
                    <?php include 'monitoring.php'; ?>
+                   <?php include 'soft/clients.php'; ?>
             </div>
 
             <!-- right side (server) -->
