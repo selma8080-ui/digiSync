@@ -30,7 +30,7 @@
         </thead>
         <tbody>
             <tr>
-                <td><?= $totals["code_auth"] ?></td>
+                <td></td>
                 <td><?= $totals["bug_in"] ?></td>
                 <td><?= $totals["bug_out"] ?></td>
                 <td><?= $totals["cmd_erreur"] ?></td>

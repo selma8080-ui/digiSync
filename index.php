@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <script src="resources/js/monitoring.js"></script>
-    <script src="resources/js/echarts.js"></script>
-    <script src="resources/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="ressources/js/monitoring.js"></script>
+    <script src="ressources/js/echarts.js"></script>
+    <script src="ressources/js/bootstrap.min.js"></script>
    
    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -18,7 +18,6 @@
 
             <!-- Left side (log) -->
             <div class="col-12 col-md-6">
-                   <?php include 'monitoring.js'; ?>
                    <?php include 'soft/clients.php'; ?>
             </div>
 
