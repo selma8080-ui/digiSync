@@ -5,10 +5,10 @@
 
 
     class DataMapperService {
-        private $dataInfo = null;
+        private $info = null;
 
         function __construct(){
-            $this->dataInfo = new DataServerEntity();
+            $this->info = new DataServerEntity();
         }
 
         public function getDataInfoJson(){
@@ -19,7 +19,9 @@
             $this->getTrafficDisque();
             $this->getTrafficReseau();     
 
-            echo json_encode($this->dataInfo);
+            $this->getTotals();
+
+            echo json_encode($this->info);
         }
 
         // Linux
@@ -41,9 +43,9 @@
 
             $percent = ($used / $total) * 100;
 
-            $this->dataInfo->ramTotal = $total;
-            $this->dataInfo->ramUsed = $used;
-            $this->dataInfo->ramAvailable = $available;
+            $this->info->ramTotal = $total;
+            $this->info->ramUsed = $used;
+            $this->info->ramAvailable = $available;
         }
 
 
@@ -63,8 +65,8 @@
 
             $Spercent = ($usedSwap / $totalSwap) * 100;
 
-            $this->dataInfo->swapTotal = $totalSwap;
-            $this->dataInfo->swapUsed = $usedSwap;
+            $this->info->swapTotal = $totalSwap;
+            $this->info->swapUsed = $usedSwap;
         }
 
 
@@ -94,9 +96,9 @@
 
             $line = preg_split('/\s+/', trim($output[1]));
 
-            $this->dataInfo->hddTotal = $line[1];
-            $this->dataInfo->hddUsed = $line[2];
-            $this->dataInfo->hddAvailable = $line[3];
+            $this->info->hddTotal = $line[1];
+            $this->info->hddUsed = $line[2];
+            $this->info->hddAvailable = $line[3];
         }
 
 
@@ -116,8 +118,8 @@
             $available = $cpuLine[14];
             $used = 100 - $available;
 
-            $this->dataInfo->cpuUsed = $used;
-            $this->dataInfo->cpuAvailable = $available;
+            $this->info->cpuUsed = $used;
+            $this->info->cpuAvailable = $available;
 
         }
 
@@ -139,8 +141,8 @@
             $lecture = $line[8];
             $ecriture = $line[9];
 
-            $this->dataInfo->trafficDisqueLecture = $lecture;
-            $this->dataInfo->trafficDisqueEcriture = $ecriture;
+            $this->info->trafficDisqueLecture = $lecture;
+            $this->info->trafficDisqueEcriture = $ecriture;
         }
 
             
@@ -169,7 +171,7 @@
                     sleep(1);
                     $end = get_incoming_traffic('eth0');
 
-                    $this->dataInfo->trafficReseau($end - $start);
+                    $this->info->trafficReseau($end - $start);
 
                 }
 
@@ -191,43 +193,33 @@
 
 
 
-        public function getTotals() {
+       public function getTotals() {
             $client = new MongoDB\Client("mongodb://localhost:27017");
             $db = $client->DigiS;
             $etablissement = $db->etablissement;
 
             $docs = $etablissement->find();
 
-            $totalCodeAuth = 0;   
-            $totalBugIn = 0;
-            $totalBugOut = 0;
-            $totalCmdErreur = 0;
-            $totalErreurIn = 0;
-            $totalErreurOut = 0;
-            $totalSyncIn = 0;
-            $totalSyncOut = 0;
+            $this->info->code_auth = 0;
+            $this->info->nbr_bug_in = 0;
+            $this->info->nbr_bug_out = 0;
+            $this->info->nbr_cmd_erreur = 0;
+            $this->info->nbr_erreur_in = 0;
+            $this->info->nbr_erreur_out = 0;
+            $this->info->nbr_sync_in = 0;
+            $this->info->nbr_sync_out = 0;
 
             foreach ($docs as $doc) {
-                $totalCodeAuth++;
-                $totalBugIn += (int)($doc["nbr_bug_in"] ?? 0);
-                $totalBugOut += (int)($doc["nbr_bug_out"] ?? 0);
-                $totalCmdErreur += (int)($doc["nbr_cmd_erreur"] ?? 0);
-                $totalErreurIn += (int)($doc["nbr_erreur_in"] ?? 0);
-                $totalErreurOut += (int)($doc["nbr_erreur_out"] ?? 0);
-                $totalSyncIn += (int)($doc["nbr_sync_in"] ?? 0);
-                $totalSyncOut += (int)($doc["nbr_sync_out"] ?? 0);
-            }
+                $this->info->code_auth++;
 
-            return [
-                "code_auth" => $totalCodeAuth,
-                "bug_in" => $totalBugIn,
-                "bug_out" => $totalBugOut,
-                "cmd_erreur" => $totalCmdErreur,
-                "erreur_in" => $totalErreurIn,
-                "erreur_out" => $totalErreurOut,
-                "sync_in" => $totalSyncIn,
-                "sync_out" => $totalSyncOut
-            ];
+                $this->info->nbr_bug_in += (int)($doc["nbr_bug_in"] ?? 0);
+                $this->info->nbr_bug_out += (int)($doc["nbr_bug_out"] ?? 0);
+                $this->info->nbr_cmd_erreur += (int)($doc["nbr_cmd_erreur"] ?? 0);
+                $this->info->nbr_erreur_in += (int)($doc["nbr_erreur_in"] ?? 0);
+                $this->info->nbr_erreur_out += (int)($doc["nbr_erreur_out"] ?? 0);
+                $this->info->nbr_sync_in += (int)($doc["nbr_sync_in"] ?? 0);
+                $this->info->nbr_sync_out += (int)($doc["nbr_sync_out"] ?? 0);
+            }
         }
 
         public function getAllData() {
@@ -235,7 +227,7 @@
             $db = $client->DigiS;
             $etablissement = $db->etablissement;
 
-            return $etablissement->find();
+            return iterator_to_array($etablissement->find());        
         }
 
 
