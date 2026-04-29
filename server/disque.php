@@ -36,4 +36,4 @@
         option && myChart.setOption(option);
 
 
-    </script>
+        </script>
