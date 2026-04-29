@@ -13,6 +13,24 @@
     <title>Document</title>
 </head>
 <body>
+
+
+   
+    <header class="bg-dark d-flex align-items-center justify-content-between p-3">
+    
+    <h1 class="m-0 text-white" style="font-size:30px;">DigiSync</h1>
+
+    <img src="ressources/img/img.png" height="57px">
+    
+</header>
+<br>
+        
+
+
+
+
+
+    </header>
     <div class="container-fluid">
         <div class="row" id="appSync">
 
