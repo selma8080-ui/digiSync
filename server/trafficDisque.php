@@ -2,11 +2,11 @@
     <div id="trafficDisqueChart" style="width:100%; height:300px;"></div>
 
     <script>
-        function BluidRamChart(data) {
+        function BuildRamChart(data) {
             var trafficDisqueChart = document.getElementById('trafficDisqueChart');
             var myChart = echarts.init(trafficDisqueChart);
             
-            let data = data;
+            let dataD = data;
             let maxDuration = 6 * 3600 * 1000; 
 
             var option = {
@@ -25,7 +25,7 @@
                 yAxis: { type: 'value', axisLabel: { formatter: function (value) {
                     return (value / (1024 * 1024)).toFixed(2) + ' MB';
                 } } },
-                series: [{ name: 'Utilisation Disque', type: 'line', smooth: true, symbol: 'none', areaStyle: {}, data: data }]
+                series: [{ name: 'Utilisation Disque', type: 'line', smooth: true, symbol: 'none', areaStyle: {}, dataD: dataD }]
             };
 
             myChart.setOption(option);
@@ -33,9 +33,9 @@
 
             function addDataPoint(value) {
                 let now = new Date().getTime();
-                data.push([now, value]);
-                data = data.filter(point => now - point[0] <= maxDuration);
-                myChart.setOption({ series: [{ data: data }] });
+                dataD.push([now, value]);
+                dataD = dataD.filter(point => now - point[0] <= maxDuration);
+                myChart.setOption({ series: [{ dataD: dataD }] });
             }
 
 
@@ -43,8 +43,8 @@
             for (let i = 0; i < 100; i++) {
                 let time = now - (100 - i) * (6 * 3600 * 1000 / 100);
                 let value = Math.random() * 50 * 1024 * 1024;
-                data.push([time, value]);
+                dataD.push([time, value]);
             }
-            myChart.setOption({ series: [{ data: data }] });
+            myChart.setOption({ series: [{ dataD: dataD }] });
         }
     </script>

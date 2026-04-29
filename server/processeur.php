@@ -1,7 +1,7 @@
     <div id="cpuChart" style="width:100%; height:300px;"></div>
 
     <script>
-        function BluidCpuChart(data) {
+        function BuildCpuChart(data) {
             var cpuChart = document.getElementById('cpuChart');
             var myChart = echarts.init(cpuChart);
             var option;

@@ -2,7 +2,7 @@
     <div id="trafficReseauChart" style="width:100%; height:300px;"></div>
 
     <script>
-        function BluidRamChart(data) {
+        function BuildRamChart(data) {
             var trafficReseauChart = document.getElementById('trafficReseauChart');
             var myChartR = echarts.init(trafficReseauChart);
 
