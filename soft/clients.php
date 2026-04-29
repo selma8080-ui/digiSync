@@ -7,14 +7,7 @@
     $docs = $dm->getAllData();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+
     <table border="1">
         <thead>
             <tr>
@@ -30,14 +23,14 @@
         </thead>
         <tbody>
             <tr>
-                <td><?= $totals["code_auth"] ?></td>
-                <td><?= $totals["bug_in"] ?></td>
-                <td><?= $totals["bug_out"] ?></td>
-                <td><?= $totals["cmd_erreur"] ?></td>
-                <td><?= $totals["erreur_in"] ?></td>
-                <td><?= $totals["erreur_out"] ?></td>
-                <td><?= $totals["sync_in"] ?></td>
-                <td><?= $totals["sync_out"] ?></td>
+                <td>{{info.totalCodeAuth}}</td>
+                <td>{{info.totalBugIn}}</td>
+                <td>{{info.totalBugOut}}</td>
+                <td>{{info.totalCmdErreur}}</td>
+                <td>{{info.totalErreurIn}}</td>
+                <td>{{info.totalErreurOut}}</td>
+                <td>{{info.totalSyncIn}}</td>
+                <td>{{info.totalSyncOut}}</td>
             </tr>
         </tbody>
     </table>
@@ -57,21 +50,19 @@
                 <th>nbr sync out</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($docs as $doc): ?>
-                <tr>
-                    <td><?= $doc["code_auth"] ?? "" ?></td>
-                    <td><?= $doc["date_last_sync"] ?? "" ?></td>
-                    <td><?= $doc["nbr_bug_in"] ?? 0 ?></td>
-                    <td><?= $doc["nbr_bug_out"] ?? 0 ?></td>
-                    <td><?= $doc["nbr_cmd_erreur"] ?? 0 ?></td>
-                    <td><?= $doc["nbr_erreur_in"] ?? 0 ?></td>
-                    <td><?= $doc["nbr_erreur_out"] ?? 0 ?></td>
-                    <td><?= $doc["nbr_sync_in"] ?? 0 ?></td>
-                    <td><?= $doc["nbr_sync_out"] ?? 0 ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+            <tbody>
+            <tr v-for="(info, index) in docs" :key="index">
+                <td>{{ info.code_auth }}</td>
+                <td>{{ info.date_last_sync }}</td>
+                <td>{{ info.nbr_bug_in }}</td>
+                <td>{{ info.nbr_bug_out }}</td>
+                <td>{{ info.nbr_cmd_erreur }}</td>
+                <td>{{ info.nbr_erreur_in }}</td>
+                <td>{{ info.nbr_erreur_out }}</td>
+                <td>{{ info.nbr_sync_in }}</td>
+                <td>{{ info.nbr_sync_out }}</td>
+            </tr>
+            </tbody>
     </table>
 
 
@@ -99,5 +90,3 @@
 
 
 
-</body>
-</html>

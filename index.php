@@ -18,7 +18,6 @@
 
             <!-- Left side (log) -->
             <div class="col-12 col-md-6">
-                   <?php include 'monitoring.js'; ?>
                    <?php include 'soft/clients.php'; ?>
             </div>
 
