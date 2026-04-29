@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-</head>
-<body>
-    
-    <div id="disqueChart" style="width:100%; height:300px;""></div>
+    <div id="disqueChart" style="width:100%; height:300px;"></div>
 
     <script>
         var disqueChart = document.getElementById('disqueChart');
@@ -45,6 +36,4 @@
         option && myChart.setOption(option);
 
 
-    </script>
-</body>
-</html>
+        </script>
