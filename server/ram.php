@@ -2,7 +2,7 @@
     <div id="ramChart" style="width:100%; height:300px;"></div>
 
     <script>
-        function BluidRamChart(data) {
+        function BuildRamChart(data) {
             var ramChart = document.getElementById('ramChart');
             var myChart = echarts.init(ramChart);
             var option;

@@ -5,6 +5,7 @@
     $dm = new DataMapperService();
     $totals = $dm->getTotals();
     $docs = $dm->getAllData();
+
 ?>
 
 

@@ -16,10 +16,7 @@ const { createApp } = Vue;
                axios.get('Model/Service/DataMapperService.php')
                    .then(response => {
                        this.info = response.data;
-                       BuildDisqueChart([
-                            { value: this.info.hddUsed},
-                            { value: this.info.hddAvailable}
-                        ]);
+                       BuildDisqueChart(this.info);
                    })
                    .catch(error => console.log(error));
            }

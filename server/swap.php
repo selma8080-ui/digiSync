@@ -1,7 +1,7 @@
     <div id="swapChart" style="width:100%; height:300px;"></div>
 
     <script>
-        function BluidSwapChart(data) {
+        function BuildSwapChart(data) {
             var swapChart = document.getElementById('swapChart');
             var myChart = echarts.init(swapChart);
             var option;

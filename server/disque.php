@@ -1,7 +1,7 @@
-    <div id="disqueChart" style="width:100%; height:300px;"></div>
+    <div id="disqueChart"  style="width:100%; height:300px;"></div>
 
     <script>
-        function BluidDisqueChart(data) {
+        function BuildDisqueChart(data) {
             var disqueChart = document.getElementById('disqueChart');
             var myChart = echarts.init(disqueChart);
             var option;

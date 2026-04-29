@@ -200,25 +200,25 @@
 
             $docs = $etablissement->find();
 
-            $this->info->code_auth = 0;
-            $this->info->nbr_bug_in = 0;
-            $this->info->nbr_bug_out = 0;
-            $this->info->nbr_cmd_erreur = 0;
-            $this->info->nbr_erreur_in = 0;
-            $this->info->nbr_erreur_out = 0;
-            $this->info->nbr_sync_in = 0;
-            $this->info->nbr_sync_out = 0;
+            $this->info->totalCodeAuth = 0;
+            $this->info->totalBugIn = 0;
+            $this->info->totalBugOut = 0;
+            $this->info->totalCmdErreur = 0;
+            $this->info->totalErreurIn = 0;
+            $this->info->totalErreurOut = 0;
+            $this->info->totalSyncIn = 0;
+            $this->info->totalSyncOut = 0;
 
             foreach ($docs as $doc) {
-                $this->info->code_auth++;
+                $this->info->totalCodeAuth++;
 
-                $this->info->nbr_bug_in += (int)($doc["nbr_bug_in"] ?? 0);
-                $this->info->nbr_bug_out += (int)($doc["nbr_bug_out"] ?? 0);
-                $this->info->nbr_cmd_erreur += (int)($doc["nbr_cmd_erreur"] ?? 0);
-                $this->info->nbr_erreur_in += (int)($doc["nbr_erreur_in"] ?? 0);
-                $this->info->nbr_erreur_out += (int)($doc["nbr_erreur_out"] ?? 0);
-                $this->info->nbr_sync_in += (int)($doc["nbr_sync_in"] ?? 0);
-                $this->info->nbr_sync_out += (int)($doc["nbr_sync_out"] ?? 0);
+                $this->info->totalBugIn += (int)($doc["nbr_bug_in"] ?? 0);
+                $this->info->totalBugOut += (int)($doc["nbr_bug_out"] ?? 0);
+                $this->info->totalCmdErreur += (int)($doc["nbr_cmd_erreur"] ?? 0);
+                $this->info->totalErreurIn += (int)($doc["nbr_erreur_in"] ?? 0);
+                $this->info->totalErreurOut += (int)($doc["nbr_erreur_out"] ?? 0);
+                $this->info->totalSyncIn += (int)($doc["nbr_sync_in"] ?? 0);
+                $this->info->totalSyncOut += (int)($doc["nbr_sync_out"] ?? 0);
             }
         }
 
