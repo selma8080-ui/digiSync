@@ -3,16 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <script src="resources/js/monitoring.js"></script>
+    <script src="resources/js/echarts.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+   
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" id="appSync">
 
             <!-- Left side (log) -->
             <div class="col-12 col-md-6">
-                   <?php include 'monitoring.php'; ?>
+                   <?php include 'monitoring.js'; ?>
                    <?php include 'soft/clients.php'; ?>
             </div>
 

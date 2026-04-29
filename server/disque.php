@@ -7,7 +7,6 @@
 
         option = {
         title: {
-            text: 'Disque Usage',
             left: 'center'
         },
         tooltip: {
