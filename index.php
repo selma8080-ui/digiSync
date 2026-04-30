@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="resources/js/vue.global.js"></script>
-    <script src="resources/js/echarts.js"></script>
+    
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/axios.min.js"></script>
     
@@ -69,7 +69,7 @@
 			</div>
 		</div>
 	</div>
-	
+		<script src="resources/js/echarts.js"></script>
 	    <script src="resources/js/monitoring.js"></script>
 </body>
 </html>
