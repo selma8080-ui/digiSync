@@ -7,9 +7,7 @@ const { createApp } = Vue;
            }
        },
        mounted() {
-           // Initial call
            this.fetchData();
-           // Fetch data every 30 seconds
            this.timer = setInterval(this.fetchData, 3000);
        },
        methods: {
@@ -25,7 +23,6 @@ const { createApp } = Vue;
            }
        },
        beforeUnmount() {
-           // Clear timer when component is destroyed
            clearInterval(this.timer);
        }
    }).mount('#appSync');

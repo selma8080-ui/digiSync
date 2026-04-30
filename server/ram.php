@@ -85,6 +85,5 @@ function buildRamChart(value) {
     }, 2000);
 }
 
-// 🔥 TEST
 buildRamChart(50);
 </script>

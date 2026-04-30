@@ -69,7 +69,6 @@ function BuildReseauChart(data) {
         });
     }
 
-    // init 6h propre
     let now = getNow();
     for (let i = 0; i < 100; i++) {
         dataR.push([

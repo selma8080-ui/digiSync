@@ -62,7 +62,6 @@ function BuildSwapChart(value) {
 
     myChart.setOption(option);
 
-    // 🔥 mise à jour toutes les 2s (simulation)
     setInterval(() => {
         let newValue = Math.round(Math.random() * 100);
 
@@ -75,6 +74,5 @@ function BuildSwapChart(value) {
     }, 2000);
 }
 
-// 🔥 IMPORTANT : appel
 BuildSwapChart(50);
 </script>

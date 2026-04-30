@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         tooltip: {
             trigger: 'item',
-            formatter: '{b} : {c} ({d}%)'   // 🔥 % affiché au hover
+            formatter: '{b} : {c} ({d}%)'   
         },
 
         legend: { show: false },

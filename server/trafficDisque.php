@@ -58,7 +58,7 @@ function BuildRamChart(data) {
 
         dataD.push([now, value]);
 
-        // garde 6h
+
         dataD = dataD.filter(p => now - p[0] <= maxDuration);
 
         myChart.setOption({
@@ -70,7 +70,6 @@ function BuildRamChart(data) {
         });
     }
 
-    // init fake data (6h réaliste)
     let now = getNow();
     for (let i = 0; i < 100; i++) {
         dataD.push([

@@ -12,11 +12,12 @@
     <title>Document</title>
 </head>
 <body>
+	
 	<header class="bg-dark d-flex align-items-center justify-content-between p-3">
 		<h1 class="m-0 text-white" style="font-size: 30px;">DigiSync</h1>
 		<img src="resources/img/img.png" height="57px">
 	</header>
-
+	
 	<div class="container-fluid" style="min-height: calc(100vh - 57px); background: linear-gradient(to right, #87bdd8, #d5f4e6, #fefbd8);" >
 		<div class="row">
 
