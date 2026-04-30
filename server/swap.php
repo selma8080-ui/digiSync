@@ -1,14 +1,20 @@
-    <div id="swapChart" style="width:100%; height:300px;"></div>
+<div id="swapChart" style="width:100%; height:300px;"></div>
 
-    <script>
-        function BuildSwapChart(data) {
-            var swapChart = document.getElementById('swapChart');
-            var myChart = echarts.init(swapChart);
-            var option;
+<script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
-            option = {
-            series: [
-                {
+<script>
+function BuildSwapChart(value) {
+
+    var swapChart = document.getElementById('swapChart');
+    var myChart = echarts.init(swapChart);
+
+    var option = {
+         title: {
+            text: 'SWAP Usage',
+            left: 'center'
+        },
+        series: [
+            {
                 type: 'gauge',
                 progress: {
                     show: true,
@@ -16,46 +22,59 @@
                 },
                 axisLine: {
                     lineStyle: {
-                    width: 18
+                        width: 18
                     }
                 },
-                axisTick: {
-                    show: false
-                },
+                axisTick: { show: false },
                 splitLine: {
                     length: 15,
                     lineStyle: {
-                    width: 2,
-                    color: '#999'
+                        width: 2,
+                        color: '#999'
                     }
                 },
                 axisLabel: {
                     distance: 25,
                     color: '#999',
-                    fontSize: 20
+                    fontSize: 12
                 },
                 anchor: {
                     show: true,
-                    showAbove: true,
-                    size: 25,
+                    size: 20,
                     itemStyle: {
-                    borderWidth: 10
+                        borderWidth: 5
                     }
                 },
-                title: {
-                    show: false
-                },
+                title: { show: false },
                 detail: {
                     valueAnimation: true,
-                    fontSize: 80,
-                    offsetCenter: [0, '70%']
+                    fontSize: 30,
+                    formatter: '{value} %'
                 },
-                data: data
-                }
-            ]
-            };
+                data: [
+                    {
+                        value: value
+                    }
+                ]
+            }
+        ]
+    };
 
-            option && myChart.setOption(option);
-        }
-    </script>
+    myChart.setOption(option);
 
+    // 🔥 mise à jour toutes les 2s (simulation)
+    setInterval(() => {
+        let newValue = Math.round(Math.random() * 100);
+
+        myChart.setOption({
+            series: [{
+                data: [{ value: newValue }]
+            }]
+        });
+
+    }, 2000);
+}
+
+// 🔥 IMPORTANT : appel
+BuildSwapChart(50);
+</script>
