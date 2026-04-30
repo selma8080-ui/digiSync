@@ -17,16 +17,16 @@
 		<img src="resources/img/img.png" height="57px">
 	</header>
 
-	<div class="container-fluid" style="min-height: calc(100vh - 57px);">
+	<div class="container-fluid" style="min-height: calc(100vh - 57px); background: linear-gradient(to right, #87bdd8, #d5f4e6, #fefbd8);" >
 		<div class="row">
 
 			<!-- Left side (log) -->
-			<div class="col-12 col-md-6" style="background-color: gray;" id="appSync">
+			<div class="col-12 col-md-6" id="appSync">
                 <?php include 'soft/clients.php'; ?>
             </div>
 
 			<!-- right side (server) -->
-			<div class="col-12 col-md-6" style="background-color: yellow;">
+			<div class="col-12 col-md-6" >
 				<div class="row">
 
 					<div class="col-12 col-md-6 mb-3">
