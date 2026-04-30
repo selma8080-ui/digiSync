@@ -3,7 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+function buildDisqueChart(data) {
 
     const el = document.getElementById('disqueChart');
     const chart = echarts.init(el);
@@ -29,11 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
             labelLine: { show: false },
 
             data: [
-                { value: 70, name: 'Used' },
-                { value: 30, name: 'Free' }
+                { value: data.hddUsed },
+                { value: data.hddAvailable }
             ]
         }]
     });
 
-});
+}
 </script>
