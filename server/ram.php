@@ -2,7 +2,7 @@
     <div id="ramChart" style="width:100%; height:300px;"></div>
 
     <script>
-        function BuildRamChart(data) {
+        function buildRamChart(dataChart) {
             var ramChart = document.getElementById('ramChart');
             var myChart = echarts.init(ramChart);
             var option;
@@ -52,7 +52,7 @@
                     formatter: '{value} km/h',
                     color: 'inherit'
                 },
-                data: data
+                data: dataChart
                 }
             ]
             };

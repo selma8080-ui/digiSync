@@ -3,88 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="ressources/js/monitoring.js"></script>
-    <script src="ressources/js/echarts.js"></script>
-    <script src="ressources/js/bootstrap.min.js"></script>
-   
-   
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="resources/js/vue.global.js"></script>
+    <script src="resources/js/echarts.js"></script>
+    <script src="resources/js/bootstrap.min.js"></script>
+    <script src="resources/js/axios.min.js"></script>
+    
+    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
+	<header class="bg-dark d-flex align-items-center justify-content-between p-3">
+		<h1 class="m-0 text-white" style="font-size: 30px;">DigiSync</h1>
+		<img src="resources/img/img.png" height="57px">
+	</header>
 
+	<div class="container-fluid" style="min-height: calc(100vh - 57px);">
+		<div class="row">
 
-   
-    <header class="bg-dark d-flex align-items-center justify-content-between p-3">
-    
-    <h1 class="m-0 text-white" style="font-size:30px;">DigiSync</h1>
-
-    <img src="ressources/img/img.png" height="57px">
-    
-</header>
-<br>
-        
-
-
-
-
-
-    </header>
-    <div class="container-fluid">
-        <div class="row" id="appSync">
-
-            <!-- Left side (log) -->
-            <div class="col-12 col-md-6">
+			<!-- Left side (log) -->
+			<div class="col-12 col-md-6" style="background-color: gray;" id="appSync">
                 <?php include 'soft/clients.php'; ?>
             </div>
 
-            <!-- right side (server) -->
-            <div class="col-12 col-md-6">
-                <div class="row">
+			<!-- right side (server) -->
+			<div class="col-12 col-md-6" style="background-color: yellow;">
+				<div class="row">
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="card">
+					<div class="col-12 col-md-6 mb-3">
+						<div class="card">
                             <?php include 'server/disque.php'; ?>  
                         </div>
-                    </div>
+					</div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="card">
+					<div class="col-12 col-md-6 mb-3">
+						<div class="card">
                             <?php include 'server/processeur.php'; ?>  
                         </div>
-                    </div>
+					</div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="card">
+					<div class="col-12 col-md-6 mb-3">
+						<div class="card">
                             <?php include 'server/ram.php'; ?>  
                         </div>
-                    </div>
+					</div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="card">
+					<div class="col-12 col-md-6 mb-3">
+						<div class="card">
                             <?php include 'server/swap.php'; ?>  
                         </div>
-                    </div>
+					</div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="card">
+					<div class="col-12 col-md-6 mb-3">
+						<div class="card">
                             <?php include 'server/trafficDisque.php'; ?>  
                         </div>
-                    </div>
+					</div>
 
-                    <div class="col-12 col-md-6 mb-3">
-                        <div class="card">
+					<div class="col-12 col-md-6 mb-3">
+						<div class="card">
                             <?php include 'server/trafficReseau.php'; ?>  
                         </div>
-                    </div>       
-                </div>
-            </div>
-
-
-            
-            </div>
-        </div>
-    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	    <script src="resources/js/monitoring.js"></script>
 </body>
 </html>

@@ -25,14 +25,6 @@
         //TRAFFIC_DISQUE
         public $trafficDisqueLecture;
         public $trafficDisqueEcriture;
-
-        
-        //TRAFFIC_RESEAU
-        // public $
-        // public $
-        // public $
-
-        
  
         public $code_auth;
         public $date_last_sync;
@@ -53,9 +45,6 @@
         public $totalErreurOut;
         public $totalSyncIn;
         public $totalSyncOut;
-
-        
-            
 
 }
 
