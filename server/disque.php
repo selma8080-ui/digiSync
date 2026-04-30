@@ -1,40 +1,39 @@
-    <div id="disqueChart" style="width:100%; height:300px;"></div>
+<div id="disqueChart" style="width:100%; height:300px;"></div>
 
-    <script>
-    function buildDisqueChart(dataChart){
-        var disqueChart = document.getElementById('disqueChart');
-        var myChart = echarts.init(disqueChart);
-        var option;
+<script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
-        option = {
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const el = document.getElementById('disqueChart');
+    const chart = echarts.init(el);
+
+    chart.setOption({
         title: {
             text: 'Disque Usage',
             left: 'center'
         },
-        tooltip: {
-            trigger: 'item'
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'left'
-        },
-        series: [
-            {
-            name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-            data: dataChart,
-            emphasis: {
-                itemStyle: {
-                shadowBlur: 10,
-                shadodwOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-            }
-        ]
-        };
 
-        option && myChart.setOption(option);
-	}
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b} : {c} ({d}%)'   // 🔥 % affiché au hover
+        },
+
+        legend: { show: false },
+
+        series: [{
+            type: 'pie',
+            radius: '70%',
+
+            label: { show: false },
+            labelLine: { show: false },
+
+            data: [
+                { value: 70, name: 'Used' },
+                { value: 30, name: 'Free' }
+            ]
+        }]
+    });
+
+});
 </script>
