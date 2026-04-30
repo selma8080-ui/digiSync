@@ -27,7 +27,7 @@ function BuildSwapChart(value) {
                 },
                 axisTick: { show: false },
                 splitLine: {
-                    length: 15,
+                    length: 3,
                     lineStyle: {
                         width: 2,
                         color: '#999'
@@ -36,7 +36,7 @@ function BuildSwapChart(value) {
                 axisLabel: {
                     distance: 25,
                     color: '#999',
-                    fontSize: 12
+                    fontSize: 14
                 },
                 anchor: {
                     show: true,
@@ -48,7 +48,7 @@ function BuildSwapChart(value) {
                 title: { show: false },
                 detail: {
                     valueAnimation: true,
-                    fontSize: 30,
+                    fontSize: 20,
                     formatter: '{value} %'
                 },
                 data: [

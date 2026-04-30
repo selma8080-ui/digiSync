@@ -9,9 +9,10 @@ function BuildCpuChart() {
     var myChart = echarts.init(cpuChart);
 
     let data = [];
-    let maxDuration = 60 * 1000; // 🔥 1 minute visible
+    let maxDuration = 60 * 1000; 
 
     var option = {
+        
         title: {
             text: 'CPU Usage',
             left: 'center'
@@ -30,7 +31,7 @@ function BuildCpuChart() {
                     return d.getHours() + ':' + String(d.getMinutes()).padStart(2, '0');
                 },
 
-                hideOverlap: true   // 🔥 empêche les chevauchements
+                hideOverlap: true   
             }
         },
 
@@ -48,7 +49,14 @@ function BuildCpuChart() {
             smooth: true,
             symbol: 'none',
             areaStyle: {},
-            data: data
+            data: data,
+            lineStyle: {
+                color: '#fff',
+                width: 4
+            },
+            itemStyle: {
+                color: '#91cc75'  
+            }
         }]
     };
 
@@ -59,7 +67,6 @@ function BuildCpuChart() {
 
         data.push([now, value]);
 
-        // 🔥 garder seulement les 60 dernières secondes
         data = data.filter(point => now - point[0] <= maxDuration);
 
         myChart.setOption({
@@ -69,7 +76,6 @@ function BuildCpuChart() {
         });
     }
 
-    // 🔥 simulation CPU
     setInterval(() => {
         let cpuValue = Math.round(Math.random() * 100);
         addData(cpuValue);

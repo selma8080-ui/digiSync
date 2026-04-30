@@ -20,7 +20,7 @@ function buildRamChart(value) {
 
                 axisLine: {
                     lineStyle: {
-                        width: 30,
+                        width: 20,
                         color: [
                             [0.3, '#67e0e3'],
                             [0.7, '#37a2da'],
@@ -36,8 +36,8 @@ function buildRamChart(value) {
                 },
 
                 axisTick: {
-                    distance: -30,
-                    length: 8,
+                    distance: -10,
+                    length: 10,
                     lineStyle: {
                         color: '#fff',
                         width: 2
@@ -45,8 +45,8 @@ function buildRamChart(value) {
                 },
 
                 splitLine: {
-                    distance: -30,
-                    length: 30,
+                    distance: -35,
+                    length: 25,
                     lineStyle: {
                         color: '#fff',
                         width: 4
@@ -56,13 +56,14 @@ function buildRamChart(value) {
                 axisLabel: {
                     color: 'inherit',
                     distance: 40,
-                    fontSize: 11
+                    fontSize: 13
                 },
 
                 detail: {
                     valueAnimation: true,
                     formatter: '{value} %',
-                    color: 'inherit'
+                    color: 'inherit',
+                    fontSize: 25
                 },
 
                 data: [{ value: value }]
