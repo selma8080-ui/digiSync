@@ -26,6 +26,7 @@
                 <?php include 'soft/clients.php'; ?>
             </div>
 
+			
 			<!-- right side (server) -->
 			<div class="col-12 col-md-6" >
 				<div class="row">

@@ -1,6 +1,8 @@
 <?php
 
+require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../Entity/DataServerEntity.php';
+
 
 class DataMapperService {
 
@@ -16,17 +18,23 @@ class DataMapperService {
         $this->getCpu();
         $this->getSwap();
         $this->getDisk();
+        $this->getTrafficDisque();
+        $this->getTrafficReseau();
+        $this->getTotals();
+        //$this->getAllData();
+        $this->info->data = $this->getAllData();
+
 
         header('Content-Type: application/json');
         echo json_encode($this->info);
     }
 
-    // ================= RAM =================
+
+
     private function getRam() {
 
         exec('free -m', $output);
 
-        // 🔥 fallback for Windows (WAMP)
         if (empty($output) || !isset($output[1])) {
             $this->info->ramTotal = 16000;
             $this->info->ramUsed = 4000;
@@ -47,7 +55,9 @@ class DataMapperService {
         $this->info->ramAvailable = $available;
     }
 
-    // ================= SWAP =================
+    
+
+
     private function getSwap() {
 
         $output = shell_exec('free -m');
@@ -64,7 +74,10 @@ class DataMapperService {
         $this->info->swapUsed = (int)($matches[2] ?? 0);
     }
 
-    // ================= DISK =================
+
+
+
+
     private function getDisk() {
 
         exec('df -h /', $output);
@@ -83,10 +96,8 @@ class DataMapperService {
         $this->info->hddAvailable = $line[3] ?? "0";
     }
 
-    // ================= CPU (SAFE FAKE FOR WINDOWS) =================
     private function getCpu() {
 
-        // Windows doesn't support vmstat → fake safe values
         $this->info->cpuUsed = rand(10, 70);
         $this->info->cpuAvailable = 100 - $this->info->cpuUsed;
     }
@@ -95,17 +106,17 @@ class DataMapperService {
 
 
 private function getTrafficDisque() {
-            exec('vmstat 1 2', $output);
+           // exec('vmstat 1 2', $output);
 
 
-            /*
-            procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
-            r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
-            0  0      0 3409284   1036 159212    0    0    76   884   54    0  0  0 99  0  0  0
-            0  0      0 3409312   1036 159212    0    0     0     0   36   41  0  0 100  0  0  0
-            */
+            
+           // procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+           // r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+             $output = "0  0      0 3409284   1036 159212    0    0    76   884   54    0  0  0 99  0  0  0
+            0  0      0 3409312   1036 159212    0    0     0     0   36   41  0  0 100  0  0  0";
+            
 
-            $line = preg_split('/\s+/', trim($output[3]));
+            $line = preg_split('/\s+/', trim($output));
 
             $lecture = $line[8];
             $ecriture = $line[9];
@@ -124,7 +135,7 @@ private function getTrafficDisque() {
                 0
             */
 
-
+        }
             function get_incoming_traffic($interface = 'eth0') {
                 $stats = file_get_contents('/proc/net/dev');
                 $lines = explode("\n", $stats);
@@ -157,69 +168,69 @@ private function getTrafficDisque() {
                     "value" => $speed
                 ]);
             }
-        }
+        
 
 
 
 
-public function getTotals() {
-    $client = new MongoDB\Client("mongodb://localhost:27017");
-    $collection = $client->DigiS->etablissement;
+            public function getTotals() {
+                $client = new MongoDB\Client("mongodb://localhost:27017");
+                $collection = $client->DigiS->etablissement;
 
-    $totals = [
-        'totalCodeAuth' => 0,
-        'totalBugIn' => 0,
-        'totalBugOut' => 0,
-        'totalCmdErreur' => 0,
-        'totalErreurIn' => 0,
-        'totalErreurOut' => 0,
-        'totalSyncIn' => 0,
-        'totalSyncOut' => 0,
-    ];
+                $totals = [
+                    'totalCodeAuth' => 0,
+                    'totalBugIn' => 0,
+                    'totalBugOut' => 0,
+                    'totalCmdErreur' => 0,
+                    'totalErreurIn' => 0,
+                    'totalErreurOut' => 0,
+                    'totalSyncIn' => 0,
+                    'totalSyncOut' => 0,
+                ];
 
-    foreach ($collection->find() as $doc) {
-        $totals['totalCodeAuth']++;
+                foreach ($collection->find() as $doc) {
+                    $totals['totalCodeAuth']++;
 
-        $totals['totalBugIn'] += (int)($doc['nbr_bug_in'] ?? 0);
-        $totals['totalBugOut'] += (int)($doc['nbr_bug_out'] ?? 0);
-        $totals['totalCmdErreur'] += (int)($doc['nbr_cmd_erreur'] ?? 0);
-        $totals['totalErreurIn'] += (int)($doc['nbr_erreur_in'] ?? 0);
-        $totals['totalErreurOut'] += (int)($doc['nbr_erreur_out'] ?? 0);
-        $totals['totalSyncIn'] += (int)($doc['nbr_sync_in'] ?? 0);
-        $totals['totalSyncOut'] += (int)($doc['nbr_sync_out'] ?? 0);
-    }
+                    $totals['totalBugIn'] += (int)($doc['nbr_bug_in'] ?? 0);
+                    $totals['totalBugOut'] += (int)($doc['nbr_bug_out'] ?? 0);
+                    $totals['totalCmdErreur'] += (int)($doc['nbr_cmd_erreur'] ?? 0);
+                    $totals['totalErreurIn'] += (int)($doc['nbr_erreur_in'] ?? 0);
+                    $totals['totalErreurOut'] += (int)($doc['nbr_erreur_out'] ?? 0);
+                    $totals['totalSyncIn'] += (int)($doc['nbr_sync_in'] ?? 0);
+                    $totals['totalSyncOut'] += (int)($doc['nbr_sync_out'] ?? 0);
+                }
 
-    return $totals;
-}
+                return $totals;
+            }
 
-        public function getAllData() {
-    $client = new MongoDB\Client("mongodb://localhost:27017");
-    $db = $client->DigiS;
-    $collection = $db->etablissement;
+            public function getAllData() {
+                $client = new MongoDB\Client("mongodb://localhost:27017");
+                $db = $client->DigiS;
+                $collection = $db->etablissement;
 
-    $data = [];
+                $data = [];
 
-    foreach ($collection->find() as $doc) {
-        $data[] = [
-            'code_auth' => $doc['code_auth'] ?? '',
-            'nbr_bug_in' => $doc['nbr_bug_in'] ?? 0,
-            'nbr_bug_out' => $doc['nbr_bug_out'] ?? 0,
-            'nbr_cmd_erreur' => $doc['nbr_cmd_erreur'] ?? 0,
-            'nbr_erreur_in' => $doc['nbr_erreur_in'] ?? 0,
-            'nbr_erreur_out' => $doc['nbr_erreur_out'] ?? 0,
-            'nbr_sync_in' => $doc['nbr_sync_in'] ?? 0,
-            'nbr_sync_out' => $doc['nbr_sync_out'] ?? 0,
-        ];
-    }
+                foreach ($collection->find() as $doc) {
+                    $data[] = [
+                        'code_auth' => $doc['code_auth'] ?? '',
+                        'nbr_bug_in' => $doc['nbr_bug_in'] ?? 0,
+                        'nbr_bug_out' => $doc['nbr_bug_out'] ?? 0,
+                        'nbr_cmd_erreur' => $doc['nbr_cmd_erreur'] ?? 0,
+                        'nbr_erreur_in' => $doc['nbr_erreur_in'] ?? 0,
+                        'nbr_erreur_out' => $doc['nbr_erreur_out'] ?? 0,
+                        'nbr_sync_in' => $doc['nbr_sync_in'] ?? 0,
+                        'nbr_sync_out' => $doc['nbr_sync_out'] ?? 0,
+                    ];
+                }
 
-    return $data;
-}
+                return $data;
+            }
 
-    
+                
 
 
-}
+            }
 
-// ================= EXECUTE API =================
-$service = new DataMapperService();
-$service->getDataInfoJson();
+            // ================= EXECUTE API =================
+            $service = new DataMapperService();
+            $service->getDataInfoJson();
