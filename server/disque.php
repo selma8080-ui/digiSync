@@ -4,38 +4,48 @@
 
 <script>
 function buildDisqueChart(data) {
-
     const el = document.getElementById('disqueChart');
     const chart = echarts.init(el);
 
     chart.setOption({
         title: {
             text: 'Disque Usage',
-            left: 'center'
+            left: 'center',
+            top: '3%' 
         },
 
-       tooltip: {
-    trigger: 'item',
-    formatter: function (params) {
-        return params.name + ' : ' + params.percent + '%';
-    }
-},
+        legend: { 
+            show: true,
+            top: '15%', 
+            left: 'center',
+            data: ['Used', 'Free'] 
+        },
 
-        legend: { show: false },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b} : {d}%'
+        },
 
         series: [{
+            name: 'Usage',
             type: 'pie',
             radius: '70%',
+            center: ['50%', '60%'], 
 
-            label: { show: false },
-            labelLine: { show: false },
-
+            label: { 
+                show: true,
+                position: 'inside',
+                formatter: '{d}%',
+                color: '#fff',
+                fontWeight: 'bold',
+                fontSize: 14
+            },
+            
             data: [
-            { value: data.hddUsed, name: 'Used' },
-            { value: data.hddAvailable, name: 'Free' }
-        ]
+                { value: parseFloat(data.hddAvailable), name: 'Free' },
+                { value: parseFloat(data.hddUsed), name: 'Used' }
+            ]
         }]
     });
-
 }
 </script>

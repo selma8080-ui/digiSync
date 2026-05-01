@@ -17,6 +17,7 @@ function buildRamChart(value) {
         series: [
             {
                 type: 'gauge',
+                center: ['50%', '65%'],
 
                 axisLine: {
                     lineStyle: {
