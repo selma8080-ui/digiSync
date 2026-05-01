@@ -5,6 +5,7 @@
 <script>
 function buildRamChart(data) {
 
+<<<<<<< HEAD
     var ramChart = document.getElementById('ramChart');
     var myChart = echarts.init(ramChart);
 
@@ -18,6 +19,26 @@ function buildRamChart(data) {
             {
                 type: 'gauge',
                 center: ['50%', '60%'],
+=======
+        var option = {
+            title: {
+                text: 'RAM Usage',
+                left: 'center'
+            },
+            series: [{
+                    type: 'gauge',
+                    center: ['50%', '65%'],
+                    axisLine: {
+                        lineStyle: {
+                            width: 20,
+                            color: [
+                                [0.3, '#67e0e3'],
+                                [0.7, '#37a2da'],
+                                [1, '#fd666d']
+                            ]
+                        }
+                    },
+>>>>>>> 24c25d33664e08d0eca49f7e771301f1deb56ba1
 
                 axisLine: {
                     lineStyle: {

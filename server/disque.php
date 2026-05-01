@@ -42,7 +42,11 @@ function buildDisqueChart(data) {
             },
             
             data: [
+<<<<<<< HEAD
                                 { value: data.hddUsed, name: 'Used' },
+=======
+                { value: data.hddUsed, name: 'Used' },
+>>>>>>> 24c25d33664e08d0eca49f7e771301f1deb56ba1
                 { value: data.hddAvailable, name: 'Free' }
             ]
         }]
