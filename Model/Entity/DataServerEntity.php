@@ -47,6 +47,8 @@
         public $totalSyncIn;
         public $totalSyncOut;
 
+        public $data;
+
 }
 
 ?>

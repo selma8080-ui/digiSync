@@ -3,7 +3,6 @@ const { createApp } = Vue;
        data() {
            return {
                info: null,
-               docs: [],
                timer: null
            }
        },
@@ -16,8 +15,6 @@ const { createApp } = Vue;
                axios.get('Model/Service/DataMapperService.php').then(response => {
 					console.log(response.data);
                     this.info = response.data;
-
-                    this.docs = response.data.data ?? [];
 					
 					buildDisqueChart(this.info);
                     BuildCpuChart(this.info);
