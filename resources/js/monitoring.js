@@ -17,8 +17,8 @@ const { createApp } = Vue;
                     this.info = response.data;
 					
 					buildDisqueChart(this.info);
-					buildRamChart(this.info.ramTotal);
                     BuildCpuChart(this.info);
+                    buildRamChart(this.info);
 					
              	}).catch(error => console.log(error));
            }

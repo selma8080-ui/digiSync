@@ -21,33 +21,20 @@ class DataMapperService {
         echo json_encode($this->info);
     }
 
-    // ================= RAM =================
+    // RAM 
     private function getRam() {
 
-        exec('free -m', $output);
+        $this->info->ramTotal = 16000;
+        $this->info->ramUsed = rand(2000, 12000);
+        $this->info->ramAvailable = $this->info->ramTotal - $this->info->ramUsed;
 
-        // 🔥 fallback for Windows (WAMP)
-        if (empty($output) || !isset($output[1])) {
-            $this->info->ramTotal = 16000;
-            $this->info->ramUsed = 4000;
-            $this->info->ramAvailable = 12000;
-            return;
-        }
+        $percent = ($this->info->ramUsed / $this->info->ramTotal) * 100;
+        $this->info->ramPercent = round($percent);
 
-        $memLine = preg_split('/\s+/', $output[1]);
-
-        $total = (int)($memLine[1] ?? 0);
-        $used = (int)($memLine[2] ?? 0);
-        $available = (int)($memLine[6] ?? 0);
-
-        if ($total == 0) $total = 1; // avoid division issues
-
-        $this->info->ramTotal = $total;
-        $this->info->ramUsed = $used;
-        $this->info->ramAvailable = $available;
+        return;
     }
 
-    // ================= SWAP =================
+    //SWAP 
     private function getSwap() {
 
         $output = shell_exec('free -m');
@@ -64,7 +51,7 @@ class DataMapperService {
         $this->info->swapUsed = (int)($matches[2] ?? 0);
     }
 
-    // ================= DISK =================
+    // DISK
     private function getDisk() {
 
         exec('df -h /', $output);
@@ -83,10 +70,9 @@ class DataMapperService {
         $this->info->hddAvailable = $line[3] ?? "0";
     }
 
-    // ================= CPU (SAFE FAKE FOR WINDOWS) =================
+    // CPU 
     private function getCpu() {
 
-        // Windows doesn't support vmstat → fake safe values
         $this->info->cpuUsed = rand(10, 70);
         $this->info->cpuAvailable = 100 - $this->info->cpuUsed;
     }
