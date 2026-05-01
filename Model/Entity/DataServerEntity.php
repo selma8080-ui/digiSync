@@ -1,11 +1,6 @@
 
 <?php
     class DataServerEntity {
-        //RAM
-        public $ramTotal;
-        public $ramUsed;
-        public $ramAvailable;
-
         //DISQUE
         public $hddTotal;
         public $hddUsed;
@@ -15,6 +10,12 @@
         //CPU
         public $cpuUsed;
         public $cpuAvailable;
+
+        //RAM
+        public $ramTotal;
+        public $ramUsed;
+        public $ramAvailable;
+        public $ramPercent;
 
         
         //SWAP

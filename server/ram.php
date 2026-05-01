@@ -3,88 +3,83 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
 <script>
-function buildRamChart(value) {
+    function buildRamChart(data) {
+        var ramChart = document.getElementById('ramChart');
+        var myChart = echarts.init(ramChart);
 
-    var ramChart = document.getElementById('ramChart');
-    var myChart = echarts.init(ramChart);
+        var option = {
+            title: {
+                text: 'RAM Usage',
+                left: 'center'
+            },
 
-    var option = {
-        title: {
-            text: 'RAM Usage',
-            left: 'center'
-        },
+            series: [
+                {
+                    type: 'gauge',
 
+<<<<<<< HEAD
         series: [
             {
                 type: 'gauge',
                 center: ['50%', '65%'],
+=======
+                    axisLine: {
+                        lineStyle: {
+                            width: 20,
+                            color: [
+                                [0.3, '#67e0e3'],
+                                [0.7, '#37a2da'],
+                                [1, '#fd666d']
+                            ]
+                        }
+                    },
+>>>>>>> 4ee56ba254892fd9360792f1497881a182521cd5
 
-                axisLine: {
-                    lineStyle: {
-                        width: 20,
-                        color: [
-                            [0.3, '#67e0e3'],
-                            [0.7, '#37a2da'],
-                            [1, '#fd666d']
-                        ]
-                    }
-                },
+                    pointer: {
+                        itemStyle: {
+                            color: 'auto'
+                        }
+                    },
 
-                pointer: {
-                    itemStyle: {
-                        color: 'auto'
-                    }
-                },
+                    axisTick: {
+                        distance: -10,
+                        length: 10,
+                        lineStyle: {
+                            color: '#fff',
+                            width: 2
+                        }
+                    },
 
-                axisTick: {
-                    distance: -10,
-                    length: 10,
-                    lineStyle: {
-                        color: '#fff',
-                        width: 2
-                    }
-                },
+                    splitLine: {
+                        distance: -35,
+                        length: 25,
+                        lineStyle: {
+                            color: '#fff',
+                            width: 4
+                        }
+                    },
 
-                splitLine: {
-                    distance: -35,
-                    length: 25,
-                    lineStyle: {
-                        color: '#fff',
-                        width: 4
-                    }
-                },
+                    axisLabel: {
+                        color: 'inherit',
+                        distance: 40,
+                        fontSize: 13
+                    },
 
-                axisLabel: {
-                    color: 'inherit',
-                    distance: 40,
-                    fontSize: 13
-                },
+                    detail: {
+                        valueAnimation: true,
+                        formatter: '{value} %',
+                        color: 'inherit',
+                        fontSize: 25
+                    },
 
-                detail: {
-                    valueAnimation: true,
-                    formatter: '{value} %',
-                    color: 'inherit',
-                    fontSize: 25
-                },
+                    data: [{value: data.ramPercent}]
+                }
+            ]
+        };
 
-                data: [{ value: value }]
-            }
-        ]
-    };
+        myChart.setOption(option);
 
-    myChart.setOption(option);
+    }
 
-    setInterval(() => {
-        let newValue = Math.round(Math.random() * 100);
 
-        myChart.setOption({
-            series: [{
-                data: [{ value: newValue }]
-            }]
-        });
-
-    }, 2000);
-}
-
-buildRamChart(50);
 </script>
