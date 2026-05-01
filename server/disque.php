@@ -31,9 +31,9 @@ function buildDisqueChart(data) {
             labelLine: { show: false },
 
             data: [
-            { value: data.hddUsed, name: 'Used' },
-            { value: data.hddAvailable, name: 'Free' }
-        ]
+                { value: data.hddUsed, name: 'Used' },
+                { value: data.hddAvailable, name: 'Free' }
+            ]
         }]
     });
 
