@@ -3,83 +3,79 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts"></script>
 
 <script>
-    function buildRamChart(data) {
-        var ramChart = document.getElementById('ramChart');
-        var myChart = echarts.init(ramChart);
+function buildRamChart(data) {
 
-        var option = {
-            title: {
-                text: 'RAM Usage',
-                left: 'center'
-            },
+    var ramChart = document.getElementById('ramChart');
+    var myChart = echarts.init(ramChart);
 
-            series: [
-                {
-                    type: 'gauge',
+    var option = {
+        title: {
+            text: 'RAM Usage',
+            left: 'center'
+        },
 
-<<<<<<< HEAD
         series: [
             {
                 type: 'gauge',
-                center: ['50%', '65%'],
-=======
-                    axisLine: {
-                        lineStyle: {
-                            width: 20,
-                            color: [
-                                [0.3, '#67e0e3'],
-                                [0.7, '#37a2da'],
-                                [1, '#fd666d']
-                            ]
-                        }
-                    },
->>>>>>> 4ee56ba254892fd9360792f1497881a182521cd5
+                center: ['50%', '60%'],
 
-                    pointer: {
-                        itemStyle: {
-                            color: 'auto'
-                        }
-                    },
+                axisLine: {
+                    lineStyle: {
+                        width: 20,
+                        color: [
+                            [0.3, '#67e0e3'],
+                            [0.7, '#37a2da'],
+                            [1, '#fd666d']
+                        ]
+                    }
+                },
 
-                    axisTick: {
-                        distance: -10,
-                        length: 10,
-                        lineStyle: {
-                            color: '#fff',
-                            width: 2
-                        }
-                    },
+                pointer: {
+                    itemStyle: {
+                        color: 'auto'
+                    }
+                },
 
-                    splitLine: {
-                        distance: -35,
-                        length: 25,
-                        lineStyle: {
-                            color: '#fff',
-                            width: 4
-                        }
-                    },
+                axisTick: {
+                    distance: -10,
+                    length: 10,
+                    lineStyle: {
+                        color: '#fff',
+                        width: 2
+                    }
+                },
 
-                    axisLabel: {
-                        color: 'inherit',
-                        distance: 40,
-                        fontSize: 13
-                    },
+                splitLine: {
+                    distance: -35,
+                    length: 25,
+                    lineStyle: {
+                        color: '#fff',
+                        width: 4
+                    }
+                },
 
-                    detail: {
-                        valueAnimation: true,
-                        formatter: '{value} %',
-                        color: 'inherit',
-                        fontSize: 25
-                    },
+                axisLabel: {
+                    color: 'inherit',
+                    distance: 40,
+                    fontSize: 13
+                },
 
-                    data: [{value: data.ramPercent}]
-                }
-            ]
-        };
+                detail: {
+                    valueAnimation: true,
+                    formatter: '{value} %',
+                    color: 'inherit',
+                    fontSize: 25
+                },
 
-        myChart.setOption(option);
+                data: [
+                    {
+                        value: data
+                    }
+                ]
+            }
+        ]
+    };
 
-    }
-
-
+    myChart.setOption(option);
+}
 </script>
