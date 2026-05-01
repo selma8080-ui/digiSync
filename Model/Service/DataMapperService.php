@@ -148,43 +148,58 @@ private function getTrafficDisque() {
 
 
 
-       public function getTotals() {
-            $client = new resources/lib/MongoDb/Client("mongodb://localhost:27017");
-             $db = $client->DigiS;
-             $etablissement = $db->etablissement;
+public function getTotals() {
+    $client = new MongoDB\Client("mongodb://localhost:27017");
+    $collection = $client->DigiS->etablissement;
 
-             $docs = $etablissement->find();
+    $totals = [
+        'totalCodeAuth' => 0,
+        'totalBugIn' => 0,
+        'totalBugOut' => 0,
+        'totalCmdErreur' => 0,
+        'totalErreurIn' => 0,
+        'totalErreurOut' => 0,
+        'totalSyncIn' => 0,
+        'totalSyncOut' => 0,
+    ];
 
-             $this->info->totalCodeAuth = 0;
-             $this->info->totalBugIn = 0;
-             $this->info->totalBugOut = 0;
-             $this->info->totalCmdErreur = 0;
-             $this->info->totalErreurIn = 0;
-             $this->info->totalErreurOut = 0;
-             $this->info->totalSyncIn = 0;
-             $this->info->totalSyncOut = 0;
+    foreach ($collection->find() as $doc) {
+        $totals['totalCodeAuth']++;
 
-             foreach ($docs as $doc) {
-                 $this->info->totalCodeAuth++;
+        $totals['totalBugIn'] += (int)($doc['nbr_bug_in'] ?? 0);
+        $totals['totalBugOut'] += (int)($doc['nbr_bug_out'] ?? 0);
+        $totals['totalCmdErreur'] += (int)($doc['nbr_cmd_erreur'] ?? 0);
+        $totals['totalErreurIn'] += (int)($doc['nbr_erreur_in'] ?? 0);
+        $totals['totalErreurOut'] += (int)($doc['nbr_erreur_out'] ?? 0);
+        $totals['totalSyncIn'] += (int)($doc['nbr_sync_in'] ?? 0);
+        $totals['totalSyncOut'] += (int)($doc['nbr_sync_out'] ?? 0);
+    }
 
-                 $this->info->totalBugIn += (int)($doc["nbr_bug_in"] ?? 0);
-                 $this->info->totalBugOut += (int)($doc["nbr_bug_out"] ?? 0);
-                 $this->info->totalCmdErreur += (int)($doc["nbr_cmd_erreur"] ?? 0);
-                 $this->info->totalErreurIn += (int)($doc["nbr_erreur_in"] ?? 0);
-                 $this->info->totalErreurOut += (int)($doc["nbr_erreur_out"] ?? 0);
-                 $this->info->totalSyncIn += (int)($doc["nbr_sync_in"] ?? 0);
-                 $this->info->totalSyncOut += (int)($doc["nbr_sync_out"] ?? 0);
-             }
-        }
+    return $totals;
+}
 
         public function getAllData() {
-             $client = new MongoDB\Client("mongodb://localhost:27017");
-             $db = $client->DigiS;
-             $etablissement = $db->etablissement;
+    $client = new MongoDB\Client("mongodb://localhost:27017");
+    $db = $client->DigiS;
+    $collection = $db->etablissement;
 
-             return iterator_to_array($etablissement->find());        
-        }
+    $data = [];
 
+    foreach ($collection->find() as $doc) {
+        $data[] = [
+            'code_auth' => $doc['code_auth'] ?? '',
+            'nbr_bug_in' => $doc['nbr_bug_in'] ?? 0,
+            'nbr_bug_out' => $doc['nbr_bug_out'] ?? 0,
+            'nbr_cmd_erreur' => $doc['nbr_cmd_erreur'] ?? 0,
+            'nbr_erreur_in' => $doc['nbr_erreur_in'] ?? 0,
+            'nbr_erreur_out' => $doc['nbr_erreur_out'] ?? 0,
+            'nbr_sync_in' => $doc['nbr_sync_in'] ?? 0,
+            'nbr_sync_out' => $doc['nbr_sync_out'] ?? 0,
+        ];
+    }
+
+    return $data;
+}
 
     
 
