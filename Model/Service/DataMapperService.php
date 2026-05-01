@@ -20,10 +20,9 @@ class DataMapperService {
         $this->getDisk();
         $this->getTrafficDisque();
         $this->getTrafficReseau();
-        $this->getTotals();
-        $this->getAllData();  
-        
+         $this->getTotals(); // ✅ now it fills info directly
 
+    $this->info->data = $this->getAllData();
 
         header('Content-Type: application/json');
         echo json_encode($this->info);
@@ -118,7 +117,7 @@ private function getTrafficDisque() {
                 0
             */
 
-        }
+        
             function get_incoming_traffic($interface = 'eth0') {
                 $stats = file_get_contents('/proc/net/dev');
                 $lines = explode("\n", $stats);
@@ -151,40 +150,37 @@ private function getTrafficDisque() {
                     "value" => $speed
                 ]);
             }
-        
+        }
 
 
 
 
             public function getTotals() {
-                $client = new MongoDB\Client("mongodb://localhost:27017");
-                $collection = $client->DigiS->etablissement;
+    $client = new MongoDB\Client("mongodb://localhost:27017");
+    $collection = $client->DigiS->etablissement;
 
-                $totals = [
-                    'totalCodeAuth' => 0,
-                    'totalBugIn' => 0,
-                    'totalBugOut' => 0,
-                    'totalCmdErreur' => 0,
-                    'totalErreurIn' => 0,
-                    'totalErreurOut' => 0,
-                    'totalSyncIn' => 0,
-                    'totalSyncOut' => 0,
-                ];
+    $this->info->totalCodeAuth = 0;
+    $this->info->totalBugIn = 0;
+    $this->info->totalBugOut = 0;
+    $this->info->totalCmdErreur = 0;
+    $this->info->totalErreurIn = 0;
+    $this->info->totalErreurOut = 0;
+    $this->info->totalSyncIn = 0;
+    $this->info->totalSyncOut = 0;
 
-                foreach ($collection->find() as $doc) {
-                    $totals['totalCodeAuth']++;
+    foreach ($collection->find() as $doc) {
+        $this->info->totalCodeAuth++;
 
-                    $totals['totalBugIn'] += (int)($doc['nbr_bug_in'] ?? 0);
-                    $totals['totalBugOut'] += (int)($doc['nbr_bug_out'] ?? 0);
-                    $totals['totalCmdErreur'] += (int)($doc['nbr_cmd_erreur'] ?? 0);
-                    $totals['totalErreurIn'] += (int)($doc['nbr_erreur_in'] ?? 0);
-                    $totals['totalErreurOut'] += (int)($doc['nbr_erreur_out'] ?? 0);
-                    $totals['totalSyncIn'] += (int)($doc['nbr_sync_in'] ?? 0);
-                    $totals['totalSyncOut'] += (int)($doc['nbr_sync_out'] ?? 0);
-                }
+        $this->info->totalBugIn += (int)($doc['nbr_bug_in'] ?? 0);
+        $this->info->totalBugOut += (int)($doc['nbr_bug_out'] ?? 0);
+        $this->info->totalCmdErreur += (int)($doc['nbr_cmd_erreur'] ?? 0);
+        $this->info->totalErreurIn += (int)($doc['nbr_erreur_in'] ?? 0);
+        $this->info->totalErreurOut += (int)($doc['nbr_erreur_out'] ?? 0);
+        $this->info->totalSyncIn += (int)($doc['nbr_sync_in'] ?? 0);
+        $this->info->totalSyncOut += (int)($doc['nbr_sync_out'] ?? 0);
+    }
+}
 
-                return $totals;
-            }
 
             public function getAllData() {
                 $client = new MongoDB\Client("mongodb://localhost:27017");
@@ -212,7 +208,7 @@ private function getTrafficDisque() {
                 
 
 
-            }
+    }
 
             // ================= EXECUTE API =================
             $service = new DataMapperService();
