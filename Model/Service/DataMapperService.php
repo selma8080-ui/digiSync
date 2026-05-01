@@ -21,8 +21,8 @@ class DataMapperService {
         $this->getTrafficDisque();
         $this->getTrafficReseau();
         $this->getTotals();
-        //$this->getAllData();
-        $this->info->data = $this->getAllData();
+        $this->getAllData();  
+        
 
 
         header('Content-Type: application/json');
