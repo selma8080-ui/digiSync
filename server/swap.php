@@ -16,6 +16,7 @@ function BuildSwapChart(value) {
         series: [
             {
                 type: 'gauge',
+                center: ['50%', '65%'],
                 progress: {
                     show: true,
                     width: 18

@@ -17,6 +17,12 @@
                 {
                     type: 'gauge',
 
+<<<<<<< HEAD
+        series: [
+            {
+                type: 'gauge',
+                center: ['50%', '65%'],
+=======
                     axisLine: {
                         lineStyle: {
                             width: 20,
@@ -27,6 +33,7 @@
                             ]
                         }
                     },
+>>>>>>> 4ee56ba254892fd9360792f1497881a182521cd5
 
                     pointer: {
                         itemStyle: {
