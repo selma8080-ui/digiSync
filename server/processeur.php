@@ -12,7 +12,6 @@ function BuildCpuChart(data) {
 
     let now = new Date();
 
-    // 🔥 accumulate history (NOT reset)
     cpuHistory.push([now, data.cpuUsed]);
 
     if (cpuHistory.length > 15) {

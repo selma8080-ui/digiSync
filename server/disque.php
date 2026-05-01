@@ -14,10 +14,12 @@ function buildDisqueChart(data) {
             left: 'center'
         },
 
-        tooltip: {
-            trigger: 'item',
-            formatter: '{b} : {c} ({d}%)'   
-        },
+       tooltip: {
+    trigger: 'item',
+    formatter: function (params) {
+        return params.name + ' : ' + params.percent + '%';
+    }
+},
 
         legend: { show: false },
 
@@ -29,9 +31,9 @@ function buildDisqueChart(data) {
             labelLine: { show: false },
 
             data: [
-                { value: data.hddUsed },
-                { value: data.hddAvailable }
-            ]
+            { value: data.hddUsed, name: 'Used' },
+            { value: data.hddAvailable, name: 'Free' }
+        ]
         }]
     });
 

@@ -91,6 +91,118 @@ class DataMapperService {
         $this->info->cpuAvailable = 100 - $this->info->cpuUsed;
     }
 
+
+
+
+private function getTrafficDisque() {
+            exec('vmstat 1 2', $output);
+
+
+            /*
+            procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+            r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+            0  0      0 3409284   1036 159212    0    0    76   884   54    0  0  0 99  0  0  0
+            0  0      0 3409312   1036 159212    0    0     0     0   36   41  0  0 100  0  0  0
+            */
+
+            $line = preg_split('/\s+/', trim($output[3]));
+
+            $lecture = $line[8];
+            $ecriture = $line[9];
+
+            $this->info->trafficDisqueLecture = $lecture;
+            $this->info->trafficDisqueEcriture = $ecriture;
+        }
+
+            
+        private function getTrafficReseau() {
+
+            /*
+            Every 1.0s: cat /proc/net/dev | grep eth0                                     DESKTOP-N335JBU: Mon Apr 20 16:15:54 2026
+
+            eth0: 133626359   59812    0    0    0     0          0        89  2088055   31173    0    0    0     0       0
+                0
+            */
+
+
+            function get_incoming_traffic($interface = 'eth0') {
+                $stats = file_get_contents('/proc/net/dev');
+                $lines = explode("\n", $stats);
+
+                foreach ($lines as $line) {
+                    if (strpos($line, $interface) !== false) {
+                        $parts = preg_split('/\s+/', trim($line));
+                        return (int)$parts[1];
+                    }
+
+
+                    $start = get_incoming_traffic('eth0');
+                    sleep(1);
+                    $end = get_incoming_traffic('eth0');
+
+                    $this->info->trafficReseau($end - $start);
+
+                }
+
+
+                $start = get_incoming_traffic('eth0');
+                usleep(500000); 
+                $end = get_incoming_traffic('eth0');
+
+                $speed = $end - $start;
+
+                header('Content-Type: application/json');
+
+                echo json_encode([
+                    "value" => $speed
+                ]);
+            }
+        }
+
+
+
+
+       public function getTotals() {
+            $client = new resources/lib/MongoDb/Client("mongodb://localhost:27017");
+             $db = $client->DigiS;
+             $etablissement = $db->etablissement;
+
+             $docs = $etablissement->find();
+
+             $this->info->totalCodeAuth = 0;
+             $this->info->totalBugIn = 0;
+             $this->info->totalBugOut = 0;
+             $this->info->totalCmdErreur = 0;
+             $this->info->totalErreurIn = 0;
+             $this->info->totalErreurOut = 0;
+             $this->info->totalSyncIn = 0;
+             $this->info->totalSyncOut = 0;
+
+             foreach ($docs as $doc) {
+                 $this->info->totalCodeAuth++;
+
+                 $this->info->totalBugIn += (int)($doc["nbr_bug_in"] ?? 0);
+                 $this->info->totalBugOut += (int)($doc["nbr_bug_out"] ?? 0);
+                 $this->info->totalCmdErreur += (int)($doc["nbr_cmd_erreur"] ?? 0);
+                 $this->info->totalErreurIn += (int)($doc["nbr_erreur_in"] ?? 0);
+                 $this->info->totalErreurOut += (int)($doc["nbr_erreur_out"] ?? 0);
+                 $this->info->totalSyncIn += (int)($doc["nbr_sync_in"] ?? 0);
+                 $this->info->totalSyncOut += (int)($doc["nbr_sync_out"] ?? 0);
+             }
+        }
+
+        public function getAllData() {
+             $client = new MongoDB\Client("mongodb://localhost:27017");
+             $db = $client->DigiS;
+             $etablissement = $db->etablissement;
+
+             return iterator_to_array($etablissement->find());        
+        }
+
+
+    
+
+
 }
 
 // ================= EXECUTE API =================
