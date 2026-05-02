@@ -41,15 +41,16 @@
             </tr>
         </thead>
             <tbody>
-            <tr v-for="(item, index) in info?.data" :key="index">
+            <tr v-for="(item, index) in info?.data || []" :key="index">
                 <td>{{ item.code_auth }}</td>
+                <td>{{ item.date_last_sync }}</td>
                 <td>{{ item.nbr_bug_in }}</td>
                 <td>{{ item.nbr_bug_out }}</td>
                 <td>{{ item.nbr_cmd_erreur }}</td>
                 <td>{{ item.nbr_erreur_in }}</td>
                 <td>{{ item.nbr_erreur_out }}</td>
                 <td>{{ item.nbr_sync_in }}</td>
-                <td>{{ item.nbr_sync_out ?? 'NO DATA' }}</td>
+                <td>{{ item.nbr_sync_out }}</td>
             </tr>
             </tbody>
     </table>
