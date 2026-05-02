@@ -156,30 +156,30 @@ private function getTrafficDisque() {
 
 
             public function getTotals() {
-    $client = new MongoDB\Client("mongodb://localhost:27017");
-    $collection = $client->DigiS->etablissement;
+                $client = new MongoDB\Client("mongodb://localhost:27017");
+                $collection = $client->DigiS->etablissement;
 
-    $this->info->totalCodeAuth = 0;
-    $this->info->totalBugIn = 0;
-    $this->info->totalBugOut = 0;
-    $this->info->totalCmdErreur = 0;
-    $this->info->totalErreurIn = 0;
-    $this->info->totalErreurOut = 0;
-    $this->info->totalSyncIn = 0;
-    $this->info->totalSyncOut = 0;
+                $this->info->totalCodeAuth = 0;
+                $this->info->totalBugIn = 0;
+                $this->info->totalBugOut = 0;
+                $this->info->totalCmdErreur = 0;
+                $this->info->totalErreurIn = 0;
+                $this->info->totalErreurOut = 0;
+                $this->info->totalSyncIn = 0;
+                $this->info->totalSyncOut = 0;
 
-    foreach ($collection->find() as $doc) {
-        $this->info->totalCodeAuth++;
+                foreach ($collection->find() as $doc) {
+                    $this->info->totalCodeAuth++;
 
-        $this->info->totalBugIn += (int)($doc['nbr_bug_in'] ?? 0);
-        $this->info->totalBugOut += (int)($doc['nbr_bug_out'] ?? 0);
-        $this->info->totalCmdErreur += (int)($doc['nbr_cmd_erreur'] ?? 0);
-        $this->info->totalErreurIn += (int)($doc['nbr_erreur_in'] ?? 0);
-        $this->info->totalErreurOut += (int)($doc['nbr_erreur_out'] ?? 0);
-        $this->info->totalSyncIn += (int)($doc['nbr_sync_in'] ?? 0);
-        $this->info->totalSyncOut += (int)($doc['nbr_sync_out'] ?? 0);
-    }
-}
+                    $this->info->totalBugIn += (int)($doc['nbr_bug_in'] ?? 0);
+                    $this->info->totalBugOut += (int)($doc['nbr_bug_out'] ?? 0);
+                    $this->info->totalCmdErreur += (int)($doc['nbr_cmd_erreur'] ?? 0);
+                    $this->info->totalErreurIn += (int)($doc['nbr_erreur_in'] ?? 0);
+                    $this->info->totalErreurOut += (int)($doc['nbr_erreur_out'] ?? 0);
+                    $this->info->totalSyncIn += (int)($doc['nbr_sync_in'] ?? 0);
+                    $this->info->totalSyncOut += (int)($doc['nbr_sync_out'] ?? 0);
+                }
+            }
 
 
             public function getAllData() {
@@ -192,6 +192,7 @@ private function getTrafficDisque() {
                 foreach ($collection->find() as $doc) {
                     $data[] = [
                         'code_auth' => $doc['code_auth'] ?? '',
+                        'date_last_sync' => isset($doc['date_last_sync']) ? date('Y-m-d H:i:s', $doc['date_last_sync']->toDateTime()->getTimestamp()) : null,
                         'nbr_bug_in' => $doc['nbr_bug_in'] ?? 0,
                         'nbr_bug_out' => $doc['nbr_bug_out'] ?? 0,
                         'nbr_cmd_erreur' => $doc['nbr_cmd_erreur'] ?? 0,
